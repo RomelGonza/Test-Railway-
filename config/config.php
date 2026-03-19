@@ -7,10 +7,26 @@ define('DB_NAME', getenv('DB_NAME') ?: 'ubvwmzhw_onta');
 
 // App Root
 define('APPROOT', dirname(dirname(__FILE__)) . '/app');
-// URL Root — read from environment or use defaults based on APP_ENV
+// URL Root — read from environment or detect dynamically from request
 if (getenv('APP_ENV') === 'production') {
-    // En production (Railway), usar dominio completo o raíz
-    $urlroot = getenv('APP_URL') ?: 'http://localhost/';
+    if (!empty(getenv('APP_URL'))) {
+        // Use explicit APP_URL if set
+        $urlroot = getenv('APP_URL');
+    } else {
+        // Detect from request — handles Railway's HTTPS reverse proxy.
+        // Railway strips and overwrites X-Forwarded-Proto from clients,
+        // so it is safe to trust here. Scheme is validated to http/https only.
+        $forwarded_proto = $_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '';
+        if ($forwarded_proto === 'https') {
+            $scheme = 'https';
+        } elseif (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
+            $scheme = 'https';
+        } else {
+            $scheme = 'http';
+        }
+        $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? 'localhost';
+        $urlroot = $scheme . '://' . $host . '/';
+    }
 } else {
     // En development, usar /onta/ como ruta por defecto
     $urlroot = getenv('APP_URL') ?: 'http://localhost/onta/';
