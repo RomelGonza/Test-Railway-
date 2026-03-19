@@ -10,12 +10,8 @@ define('APPROOT', dirname(dirname(__FILE__)) . '/app');
 // URL Root — read from environment or detect dynamically from request
 if (getenv('APP_ENV') === 'production') {
     if (!empty(getenv('APP_URL'))) {
-        // Use explicit APP_URL if set
         $urlroot = getenv('APP_URL');
     } else {
-        // Detect from request — handles Railway's HTTPS reverse proxy.
-        // Railway strips and overwrites X-Forwarded-Proto from clients,
-        // so it is safe to trust here. Scheme is validated to http/https only.
         $forwarded_proto = $_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '';
         if ($forwarded_proto === 'https') {
             $scheme = 'https';
@@ -25,14 +21,15 @@ if (getenv('APP_ENV') === 'production') {
             $scheme = 'http';
         }
         $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? 'localhost';
-        $urlroot = $scheme . '://' . $host . '/';
+        $urlroot = $scheme . '://' . $host;
     }
 } else {
-    // En development, usar /onta/ como ruta por defecto
-    $urlroot = getenv('APP_URL') ?: 'http://localhost/onta/';
+    // Development: sin slash final para consistencia con las vistas
+    $urlroot = rtrim(getenv('APP_URL') ?: 'http://localhost/onta', '/');
 }
 // Asegurar que siempre termina con /
-define('URLROOT', rtrim($urlroot, '/') . '/');
+#define('URLROOT', rtrim($urlroot, '/') . '/');
+define('URLROOT', rtrim($urlroot, '/'));
 // Site Name
 define('SITENAME', getenv('SITENAME') ?: 'ONTA PERU 2026');
 // App Version
