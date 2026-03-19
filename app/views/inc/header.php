@@ -22,7 +22,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Main Style -->
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>css/style.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/style.css">
     <!-- Favicon -->
     <link rel="shortcut icon" href="<?php echo URLROOT; ?>img/logo_onta.png" type="image/x-icon">
     

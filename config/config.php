@@ -29,7 +29,7 @@ if (getenv('APP_ENV') === 'production') {
 }
 // Asegurar que siempre termina con /
 #define('URLROOT', rtrim($urlroot, '/') . '/');
-define('URLROOT', rtrim($urlroot, '/'));
+define('URLROOT', rtrim($urlroot, '/') . '/');
 // Site Name
 define('SITENAME', getenv('SITENAME') ?: 'ONTA PERU 2026');
 // App Version
