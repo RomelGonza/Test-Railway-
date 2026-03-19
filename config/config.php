@@ -10,11 +10,13 @@ define('APPROOT', dirname(dirname(__FILE__)) . '/app');
 // URL Root — read from environment or use defaults based on APP_ENV
 if (getenv('APP_ENV') === 'production') {
     // En production (Railway), usar dominio completo o raíz
-    define('URLROOT', getenv('APP_URL') ?: 'http://localhost/');
+    $urlroot = getenv('APP_URL') ?: 'http://localhost/';
 } else {
     // En development, usar /onta/ como ruta por defecto
-    define('URLROOT', getenv('APP_URL') ?: 'http://localhost/onta/');
+    $urlroot = getenv('APP_URL') ?: 'http://localhost/onta/';
 }
+// Asegurar que siempre termina con /
+define('URLROOT', rtrim($urlroot, '/') . '/');
 // Site Name
 define('SITENAME', getenv('SITENAME') ?: 'ONTA PERU 2026');
 // App Version

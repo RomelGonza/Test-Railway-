@@ -12,7 +12,7 @@
     <meta property="og:url" content="<?php echo URLROOT; ?>">
     <meta property="og:title" content="<?php echo $data['title'] ?? SITENAME; ?>">
     <meta property="og:description" content="<?php echo $data['description'] ?? 'Únete a nosotros en Puno para la 56ª Reunión Anual de ONTA.'; ?>">
-    <meta property="og:image" content="<?php echo URLROOT; ?>/img/portadas/hero_bg.jpg">
+    <meta property="og:image" content="<?php echo URLROOT; ?>img/portadas/hero_bg.jpg">
 
     <title><?php echo isset($data['title']) ? $data['title'] : SITENAME; ?></title>
     <!-- Tipografía institucional: sans (UI) + serif (científica/académica) -->
@@ -22,9 +22,9 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Main Style -->
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/style.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>css/style.css">
     <!-- Favicon -->
-    <link rel="shortcut icon" href="<?php echo URLROOT; ?>/img/logo_onta.png" type="image/x-icon">
+    <link rel="shortcut icon" href="<?php echo URLROOT; ?>img/logo_onta.png" type="image/x-icon">
     
     <script>
         const URLROOT = '<?php echo URLROOT; ?>';
