@@ -1,8 +1,16 @@
 [build]
 dockerfile = "Dockerfile"
+buildCommand = "docker build -t onta:latest ."
+
+[[services]]
+name = "web"
+dockerfile = "Dockerfile"
+healthcheckPath = "/"
+healthcheckInterval = 10
+healthcheckTimeout = 5
 
 [variables]
-# Base de datos
+# Database
 DB_HOST = ""
 DB_USER = ""
 DB_PASS = ""
@@ -16,6 +24,6 @@ APP_ENV = "production"
 APP_URL = ""
 SITENAME = "ONTA Asistencia QR"
 
-# reCAPTCHA (optional, set actual keys in Railway dashboard)
+# reCAPTCHA (optional)
 RECAPTCHA_SITE_KEY = ""
 RECAPTCHA_SECRET_KEY = ""

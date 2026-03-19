@@ -1,0 +1,14 @@
+.git
+.gitignore
+.DS_Store
+node_modules
+npm-debug.log
+.env
+.env.local
+vendor/bin
+vendor/composer
+.idea
+*.log
+.vscode
+public/uploads/*
+!public/uploads/.gitkeep
