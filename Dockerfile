@@ -16,7 +16,8 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) gd pdo_mysql
 
 # 2. Habilitar mod_rewrite para que .htaccess funcione (CRÍTICO para ONTA)
-RUN a2dismod mpm_event mpm_worker && a2enmod mpm_prefork rewrite headers
+# php:8.2-apache ya trae mpm_prefork activo — solo habilitar los módulos faltantes
+RUN a2enmod rewrite headers
 
 # 3. Cambiar el DocumentRoot de Apache a /var/www/html/public
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
