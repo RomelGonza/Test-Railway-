@@ -18,8 +18,9 @@ RUN docker-php-ext-install pdo pdo_mysql
 # Instalar Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copiar archivo de configuración de Nginx
-COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
+# Limpiar configuración default de Nginx y copiar nuestra config
+RUN rm -f /etc/nginx/conf.d/default.conf
+COPY docker/nginx.conf /etc/nginx/conf.d/onta.conf
 COPY docker/start.sh /start.sh
 
 # Copiar proyecto al contenedor
