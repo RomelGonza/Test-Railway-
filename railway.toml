@@ -1,6 +1,5 @@
 [build]
 dockerfile = "Dockerfile"
-buildCommand = "docker build --no-cache -t onta:latest ."
 
 [variables]
 DB_HOST = ""

@@ -12,5 +12,3 @@ vendor/composer
 .vscode
 public/uploads/*
 !public/uploads/.gitkeep
-docker/start.sh
-docker/nginx.conf
