@@ -13,13 +13,14 @@ RUN docker-php-ext-install pdo pdo_mysql
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Apache Modules
-RUN a2enmod rewrite headers
+# Deshabilitar MPMs conflictivos - SOLO dejar mpm_prefork
+RUN a2dismod mpm_event mpm_worker 2>/dev/null || true
+RUN a2enmod mpm_prefork rewrite headers
 
 # Copiar proyecto
 COPY . /var/www/html/
 
-# Crear configuración Apache limpia y simple
+# Crear configuración Apache limpia
 RUN rm -rf /etc/apache2/sites-enabled/* && \
     cat > /etc/apache2/sites-available/onta.conf << 'EOF'
 <VirtualHost *:80>
@@ -34,7 +35,7 @@ RUN rm -rf /etc/apache2/sites-enabled/* && \
 </VirtualHost>
 EOF
 
-RUN a2ensite onta && a2dissite 000-default
+RUN a2ensite onta && a2dissite 000-default || true
 
 # Permisos
 RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html && \
