@@ -1,0 +1,17 @@
+{
+    "name": "onta/attendance-qr",
+    "description": "Sistema de Asistencia por QR para Congreso de Investigación",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "endroid/qr-code": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Onta\\": "app/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}

@@ -1,0 +1,215 @@
+[11-Mar-2026 11:29:38 America/Lima] PHP Deprecated:  Creation of dynamic property Users::$abstractModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Users.php on line 7
+[11-Mar-2026 11:29:38 America/Lima] PHP Deprecated:  Creation of dynamic property Users::$inscriptionModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Users.php on line 8
+[11-Mar-2026 11:29:38 America/Lima] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ubvwmzhw_onta.inscriptions' doesn't exist in /home/ubvwmzhw/public_html/app/core/Database.php:65
+Stack trace:
+#0 /home/ubvwmzhw/public_html/app/core/Database.php(65): PDOStatement->execute()
+#1 /home/ubvwmzhw/public_html/app/core/Database.php(70): Database->execute()
+#2 /home/ubvwmzhw/public_html/app/models/Inscription.php(34): Database->resultSet()
+#3 /home/ubvwmzhw/public_html/app/controllers/Users.php(195): Inscription->getInscriptionsByUserId(8)
+#4 /home/ubvwmzhw/public_html/app/core/App.php(48): Users->dashboard()
+#5 /home/ubvwmzhw/public_html/public/index.php(6): App->__construct()
+#6 {main}
+  thrown in /home/ubvwmzhw/public_html/app/core/Database.php on line 65
+[11-Mar-2026 11:29:40 America/Lima] PHP Deprecated:  Creation of dynamic property Users::$abstractModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Users.php on line 7
+[11-Mar-2026 11:29:40 America/Lima] PHP Deprecated:  Creation of dynamic property Users::$inscriptionModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Users.php on line 8
+[11-Mar-2026 11:29:40 America/Lima] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ubvwmzhw_onta.inscriptions' doesn't exist in /home/ubvwmzhw/public_html/app/core/Database.php:65
+Stack trace:
+#0 /home/ubvwmzhw/public_html/app/core/Database.php(65): PDOStatement->execute()
+#1 /home/ubvwmzhw/public_html/app/core/Database.php(70): Database->execute()
+#2 /home/ubvwmzhw/public_html/app/models/Inscription.php(34): Database->resultSet()
+#3 /home/ubvwmzhw/public_html/app/controllers/Users.php(195): Inscription->getInscriptionsByUserId(8)
+#4 /home/ubvwmzhw/public_html/app/core/App.php(48): Users->dashboard()
+#5 /home/ubvwmzhw/public_html/public/index.php(6): App->__construct()
+#6 {main}
+  thrown in /home/ubvwmzhw/public_html/app/core/Database.php on line 65
+[11-Mar-2026 11:37:17 America/Lima] PHP Deprecated:  Creation of dynamic property Users::$abstractModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Users.php on line 7
+[11-Mar-2026 11:37:17 America/Lima] PHP Deprecated:  Creation of dynamic property Users::$inscriptionModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Users.php on line 8
+[11-Mar-2026 11:37:25 America/Lima] PHP Deprecated:  Creation of dynamic property Users::$abstractModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Users.php on line 7
+[11-Mar-2026 11:37:25 America/Lima] PHP Deprecated:  Creation of dynamic property Users::$inscriptionModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Users.php on line 8
+[11-Mar-2026 11:41:13 America/Lima] PHP Fatal error:  Cannot redeclare Users::__construct() in /home/ubvwmzhw/public_html/app/controllers/Users.php on line 12
+[11-Mar-2026 11:41:15 America/Lima] PHP Fatal error:  Cannot redeclare Users::__construct() in /home/ubvwmzhw/public_html/app/controllers/Users.php on line 12
+[11-Mar-2026 11:42:28 America/Lima] PHP Deprecated:  Creation of dynamic property Onta_admin::$userModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Onta_admin.php on line 4
+[11-Mar-2026 11:42:28 America/Lima] PHP Deprecated:  Creation of dynamic property Onta_admin::$abstractModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Onta_admin.php on line 5
+[11-Mar-2026 11:42:28 America/Lima] PHP Deprecated:  Creation of dynamic property Onta_admin::$inscriptionModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Onta_admin.php on line 6
+[11-Mar-2026 11:42:47 America/Lima] PHP Deprecated:  Creation of dynamic property Onta_admin::$userModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Onta_admin.php on line 4
+[11-Mar-2026 11:42:47 America/Lima] PHP Deprecated:  Creation of dynamic property Onta_admin::$abstractModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Onta_admin.php on line 5
+[11-Mar-2026 11:42:47 America/Lima] PHP Deprecated:  Creation of dynamic property Onta_admin::$inscriptionModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Onta_admin.php on line 6
+[11-Mar-2026 11:44:47 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/controllers/Onta_admin.php on line 31
+[11-Mar-2026 11:45:02 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/controllers/Onta_admin.php on line 31
+[11-Mar-2026 11:48:57 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/controllers/Users.php on line 19
+[11-Mar-2026 11:48:57 America/Lima] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/ubvwmzhw/public_html/app/controllers/Users.php:19) in /home/ubvwmzhw/public_html/app/helpers/url_helper.php on line 4
+[11-Mar-2026 11:49:14 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/controllers/Users.php on line 19
+[11-Mar-2026 11:49:14 America/Lima] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/ubvwmzhw/public_html/app/controllers/Users.php:19) in /home/ubvwmzhw/public_html/app/helpers/url_helper.php on line 4
+[11-Mar-2026 12:18:13 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[11-Mar-2026 12:18:17 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[11-Mar-2026 12:18:19 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[11-Mar-2026 12:24:30 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/controllers/Search.php on line 10
+[11-Mar-2026 12:24:30 America/Lima] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ubvwmzhw_onta.agenda' doesn't exist in /home/ubvwmzhw/public_html/app/core/Database.php:65
+Stack trace:
+#0 /home/ubvwmzhw/public_html/app/core/Database.php(65): PDOStatement->execute()
+#1 /home/ubvwmzhw/public_html/app/core/Database.php(70): Database->execute()
+#2 /home/ubvwmzhw/public_html/app/models/SearchModel.php(32): Database->resultSet()
+#3 /home/ubvwmzhw/public_html/app/controllers/Search.php(16): SearchModel->searchDatabase('puno')
+#4 /home/ubvwmzhw/public_html/app/core/App.php(48): Search->index()
+#5 /home/ubvwmzhw/public_html/public/index.php(6): App->__construct()
+#6 {main}
+  thrown in /home/ubvwmzhw/public_html/app/core/Database.php on line 65
+[11-Mar-2026 12:24:31 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/controllers/Search.php on line 34
+[11-Mar-2026 12:24:31 America/Lima] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ubvwmzhw_onta.agenda' doesn't exist in /home/ubvwmzhw/public_html/app/core/Database.php:65
+Stack trace:
+#0 /home/ubvwmzhw/public_html/app/core/Database.php(65): PDOStatement->execute()
+#1 /home/ubvwmzhw/public_html/app/core/Database.php(70): Database->execute()
+#2 /home/ubvwmzhw/public_html/app/models/SearchModel.php(32): Database->resultSet()
+#3 /home/ubvwmzhw/public_html/app/controllers/Search.php(41): SearchModel->searchDatabase('puno')
+#4 /home/ubvwmzhw/public_html/app/core/App.php(48): Search->suggestions()
+#5 /home/ubvwmzhw/public_html/public/index.php(6): App->__construct()
+#6 {main}
+  thrown in /home/ubvwmzhw/public_html/app/core/Database.php on line 65
+[11-Mar-2026 12:24:39 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/controllers/Search.php on line 10
+[11-Mar-2026 12:24:39 America/Lima] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'ubvwmzhw_onta.agenda' doesn't exist in /home/ubvwmzhw/public_html/app/core/Database.php:65
+Stack trace:
+#0 /home/ubvwmzhw/public_html/app/core/Database.php(65): PDOStatement->execute()
+#1 /home/ubvwmzhw/public_html/app/core/Database.php(70): Database->execute()
+#2 /home/ubvwmzhw/public_html/app/models/SearchModel.php(32): Database->resultSet()
+#3 /home/ubvwmzhw/public_html/app/controllers/Search.php(16): SearchModel->searchDatabase('explora')
+#4 /home/ubvwmzhw/public_html/app/core/App.php(48): Search->index()
+#5 /home/ubvwmzhw/public_html/public/index.php(6): App->__construct()
+#6 {main}
+  thrown in /home/ubvwmzhw/public_html/app/core/Database.php on line 65
+[11-Mar-2026 12:29:01 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/controllers/Search.php on line 10
+[11-Mar-2026 13:13:52 America/Lima] PHP Deprecated:  Creation of dynamic property Admin::$inscriptionModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Admin.php on line 7
+[11-Mar-2026 13:13:52 America/Lima] PHP Deprecated:  Creation of dynamic property Admin::$abstractModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Admin.php on line 8
+[11-Mar-2026 14:51:41 America/Lima] PHP Warning:  Undefined array key "user_id" in /home/ubvwmzhw/public_html/app/controllers/Inscriptions.php on line 15
+[11-Mar-2026 15:20:13 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[11-Mar-2026 15:20:17 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[11-Mar-2026 15:20:22 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[11-Mar-2026 15:20:42 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[11-Mar-2026 15:21:04 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[11-Mar-2026 15:21:12 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[11-Mar-2026 15:21:16 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Undefined array key "user_id" in /home/ubvwmzhw/public_html/app/controllers/Users.php on line 195
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Undefined array key "user_id" in /home/ubvwmzhw/public_html/app/controllers/Users.php on line 196
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Undefined array key "user_id" in /home/ubvwmzhw/public_html/app/controllers/Users.php on line 197
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Undefined array key "user_name" in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 707
+[11-Mar-2026 21:43:38 America/Lima] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 707
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Undefined array key "user_name" in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 708
+[11-Mar-2026 21:43:38 America/Lima] PHP Deprecated:  explode(): Passing null to parameter #2 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 708
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Undefined array key "user_category" in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 709
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Undefined array key "user_name" in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 735
+[11-Mar-2026 21:43:38 America/Lima] PHP Deprecated:  explode(): Passing null to parameter #2 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 735
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Undefined array key "user_name" in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 954
+[11-Mar-2026 21:43:38 America/Lima] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 954
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Undefined array key "user_name" in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 955
+[11-Mar-2026 21:43:38 America/Lima] PHP Deprecated:  explode(): Passing null to parameter #2 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 955
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Attempt to read property "name" on bool in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 1002
+[11-Mar-2026 21:43:38 America/Lima] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 1002
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Attempt to read property "name" on bool in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 1004
+[11-Mar-2026 21:43:38 America/Lima] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 1004
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Attempt to read property "user_category" on bool in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 1005
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Attempt to read property "id" on bool in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 1012
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Attempt to read property "dni" on bool in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 1016
+[11-Mar-2026 21:43:38 America/Lima] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 1016
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Attempt to read property "email" on bool in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 1020
+[11-Mar-2026 21:43:38 America/Lima] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/helpers/security_helper.php on line 13
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Attempt to read property "name" on bool in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 1024
+[11-Mar-2026 21:43:38 America/Lima] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 1024
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Attempt to read property "university" on bool in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 1028
+[11-Mar-2026 21:43:38 America/Lima] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/helpers/security_helper.php on line 13
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Attempt to read property "professional_school" on bool in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 1032
+[11-Mar-2026 21:43:38 America/Lima] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/helpers/security_helper.php on line 13
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Attempt to read property "department" on bool in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 1036
+[11-Mar-2026 21:43:38 America/Lima] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/helpers/security_helper.php on line 13
+[11-Mar-2026 21:43:38 America/Lima] PHP Warning:  Attempt to read property "phone" on bool in /home/ubvwmzhw/public_html/app/views/users/dashboard.php on line 1040
+[11-Mar-2026 21:43:38 America/Lima] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/helpers/security_helper.php on line 13
+[12-Mar-2026 04:15:05 America/Lima] PHP Warning:  Undefined array key "admin_name" in /home/ubvwmzhw/public_html/app/views/admin/dashboard.php on line 579
+[12-Mar-2026 04:15:05 America/Lima] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/views/admin/dashboard.php on line 579
+[12-Mar-2026 04:15:05 America/Lima] PHP Warning:  Undefined array key "admin_name" in /home/ubvwmzhw/public_html/app/views/admin/dashboard.php on line 581
+[12-Mar-2026 04:15:05 America/Lima] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/views/admin/dashboard.php on line 581
+[12-Mar-2026 04:15:05 America/Lima] PHP Warning:  Undefined array key "admin_name" in /home/ubvwmzhw/public_html/app/views/admin/dashboard.php on line 623
+[12-Mar-2026 04:15:05 America/Lima] PHP Deprecated:  explode(): Passing null to parameter #2 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/views/admin/dashboard.php on line 623
+[12-Mar-2026 04:15:06 America/Lima] PHP Warning:  Undefined array key "admin_name" in /home/ubvwmzhw/public_html/app/views/admin/dashboard.php on line 579
+[12-Mar-2026 04:15:06 America/Lima] PHP Deprecated:  substr(): Passing null to parameter #1 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/views/admin/dashboard.php on line 579
+[12-Mar-2026 04:15:06 America/Lima] PHP Warning:  Undefined array key "admin_name" in /home/ubvwmzhw/public_html/app/views/admin/dashboard.php on line 581
+[12-Mar-2026 04:15:06 America/Lima] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/views/admin/dashboard.php on line 581
+[12-Mar-2026 04:15:06 America/Lima] PHP Warning:  Undefined array key "admin_name" in /home/ubvwmzhw/public_html/app/views/admin/dashboard.php on line 623
+[12-Mar-2026 04:15:06 America/Lima] PHP Deprecated:  explode(): Passing null to parameter #2 ($string) of type string is deprecated in /home/ubvwmzhw/public_html/app/views/admin/dashboard.php on line 623
+[12-Mar-2026 12:05:12 America/Lima] PHP Warning:  require_once(../app/bootstrap.php): Failed to open stream: No such file or directory in /home/ubvwmzhw/public_html/public/index.php on line 3
+[12-Mar-2026 12:05:12 America/Lima] PHP Fatal error:  Uncaught Error: Failed opening required '../app/bootstrap.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/ubvwmzhw/public_html/public/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/ubvwmzhw/public_html/public/index.php on line 3
+[12-Mar-2026 12:05:14 America/Lima] PHP Warning:  require_once(../app/bootstrap.php): Failed to open stream: No such file or directory in /home/ubvwmzhw/public_html/public/index.php on line 3
+[12-Mar-2026 12:05:14 America/Lima] PHP Fatal error:  Uncaught Error: Failed opening required '../app/bootstrap.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/ubvwmzhw/public_html/public/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/ubvwmzhw/public_html/public/index.php on line 3
+[12-Mar-2026 12:05:16 America/Lima] PHP Warning:  require_once(../app/bootstrap.php): Failed to open stream: No such file or directory in /home/ubvwmzhw/public_html/public/index.php on line 3
+[12-Mar-2026 12:05:16 America/Lima] PHP Fatal error:  Uncaught Error: Failed opening required '../app/bootstrap.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/ubvwmzhw/public_html/public/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/ubvwmzhw/public_html/public/index.php on line 3
+[12-Mar-2026 12:05:17 America/Lima] PHP Warning:  require_once(../app/bootstrap.php): Failed to open stream: No such file or directory in /home/ubvwmzhw/public_html/public/index.php on line 3
+[12-Mar-2026 12:05:17 America/Lima] PHP Fatal error:  Uncaught Error: Failed opening required '../app/bootstrap.php' (include_path='.:/opt/cpanel/ea-php82/root/usr/share/pear') in /home/ubvwmzhw/public_html/public/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/ubvwmzhw/public_html/public/index.php on line 3
+[12-Mar-2026 16:45:37 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[12-Mar-2026 16:45:41 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[12-Mar-2026 16:45:41 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[12-Mar-2026 16:45:41 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[12-Mar-2026 16:58:48 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[12-Mar-2026 23:17:47 America/Lima] PHP Deprecated:  Creation of dynamic property Admin::$inscriptionModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Admin.php on line 7
+[12-Mar-2026 23:17:47 America/Lima] PHP Deprecated:  Creation of dynamic property Admin::$abstractModel is deprecated in /home/ubvwmzhw/public_html/app/controllers/Admin.php on line 8
+[13-Mar-2026 03:55:25 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:55:32 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:55:36 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:55:39 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:55:41 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:55:44 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:55:46 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:55:50 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:55:52 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:55:53 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:55:55 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:55:56 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:55:58 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:55:59 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:56:00 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:56:01 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:56:03 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:56:04 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:56:05 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:56:07 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:56:08 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:56:12 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 03:56:26 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 10:46:22 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 10:46:27 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 10:46:27 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 10:46:32 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 11:10:08 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 15:31:13 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 15:31:18 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 15:31:18 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 15:31:18 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[13-Mar-2026 15:31:23 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[14-Mar-2026 04:28:10 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[14-Mar-2026 04:28:14 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[14-Mar-2026 04:28:19 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[14-Mar-2026 06:08:48 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[14-Mar-2026 06:10:52 America/Lima] PHP Warning:  Undefined array key "user_id" in /home/ubvwmzhw/public_html/app/controllers/Inscriptions.php on line 15
+[14-Mar-2026 07:28:16 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[14-Mar-2026 12:42:07 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[14-Mar-2026 12:42:07 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[14-Mar-2026 12:42:07 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[14-Mar-2026 12:42:17 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[14-Mar-2026 12:42:17 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[14-Mar-2026 16:26:08 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[14-Mar-2026 16:26:11 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[14-Mar-2026 16:26:12 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[14-Mar-2026 16:26:14 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[14-Mar-2026 16:26:24 America/Lima] PHP Deprecated:  Constant FILTER_SANITIZE_STRING is deprecated in /home/ubvwmzhw/public_html/app/helpers/language_helper.php on line 10
+[14-Mar-2026 17:40:51 America/Lima] PHP Warning:  Undefined array key "csrf_token" in /home/ubvwmzhw/public_html/app/helpers/security_helper.php on line 44
+[14-Mar-2026 17:41:30 America/Lima] PHP Warning:  Undefined array key "csrf_token" in /home/ubvwmzhw/public_html/app/helpers/security_helper.php on line 44
+[14-Mar-2026 17:41:38 America/Lima] PHP Warning:  Undefined array key "csrf_token" in /home/ubvwmzhw/public_html/app/helpers/security_helper.php on line 44
+[14-Mar-2026 17:41:48 America/Lima] PHP Warning:  Undefined array key "csrf_token" in /home/ubvwmzhw/public_html/app/helpers/security_helper.php on line 44

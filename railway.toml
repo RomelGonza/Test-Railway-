@@ -1,0 +1,21 @@
+[build]
+dockerfile = "Dockerfile"
+
+[variables]
+# Base de datos
+DB_HOST = ""
+DB_USER = ""
+DB_PASS = ""
+DB_NAME = ""
+
+# QR Configuration
+QR_SECRET = ""
+
+# Application
+APP_ENV = "production"
+APP_URL = ""
+SITENAME = "ONTA Asistencia QR"
+
+# reCAPTCHA (optional, set actual keys in Railway dashboard)
+RECAPTCHA_SITE_KEY = ""
+RECAPTCHA_SECRET_KEY = ""
