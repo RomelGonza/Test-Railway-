@@ -7,8 +7,14 @@ define('DB_NAME', getenv('DB_NAME') ?: 'ubvwmzhw_onta');
 
 // App Root
 define('APPROOT', dirname(dirname(__FILE__)) . '/app');
-// URL Root — read from environment or use localhost
-define('URLROOT', getenv('APP_URL') ?: 'http://localhost/onta/');
+// URL Root — read from environment or use defaults based on APP_ENV
+if (getenv('APP_ENV') === 'production') {
+    // En production (Railway), usar dominio completo o raíz
+    define('URLROOT', getenv('APP_URL') ?: 'http://localhost/');
+} else {
+    // En development, usar /onta/ como ruta por defecto
+    define('URLROOT', getenv('APP_URL') ?: 'http://localhost/onta/');
+}
 // Site Name
 define('SITENAME', getenv('SITENAME') ?: 'ONTA PERU 2026');
 // App Version
