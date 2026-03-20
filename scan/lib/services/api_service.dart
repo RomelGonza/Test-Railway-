@@ -7,11 +7,11 @@ class ApiService {
   // In a real scenario, this would be a configurable environment variable.
   // Base URL para dispositivo físico conectado a la misma red Wi-Fi
   // Importante: El celular y tu PC deben estar en la misma red Wi-Fi
-  static const String _baseUrl = 'http://10.221.131.72:8080'; // Ip de tu Wi-Fi conectada al Docker
+  static const String _baseUrl = 'https://test-railway-production-efe3.up.railway.app/'; // Ip de tu Wi-Fi conectada al Docker
 
   // Reemplaza esto con el token generado para la cuenta de Scanner (organizador_hash_token)
   // Puedes obtener/crear uno temporalmente con una petición POST a /api/token
-  static const String _apiToken = 'TOKEN_DEL_ORGANIZADOR'; 
+  static const String _apiToken = 'organizador_onta_2026_super_secret_key'; 
 
   Future<AttendanceResponse> scanAttendance(String token) async {
     try {

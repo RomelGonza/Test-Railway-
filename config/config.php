@@ -1,4 +1,7 @@
 <?php
+// Timezone — Perú
+date_default_timezone_set('America/Lima');
+
 // Database params — read from environment (Railway style) or use defaults
 define('DB_HOST', getenv('MYSQLHOST') ?: getenv('DB_HOST') ?: 'localhost');
 define('DB_USER', getenv('MYSQLUSER') ?: getenv('DB_USER') ?: 'root');
