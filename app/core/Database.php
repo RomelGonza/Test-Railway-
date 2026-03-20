@@ -31,8 +31,8 @@ class Database {
             $this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
         } catch (PDOException $e) {
             $this->error = $e->getMessage();
-            // In production, we shouldn't leak this info
-            // error_log($this->error);
+            // Lanzamos el error para saber qué está fallando exactamente (Host, Pass, etc)
+            die("Error de conexión a la base de datos comprobando parámetros: " . $this->error);
         }
     }
 
