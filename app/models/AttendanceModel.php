@@ -18,13 +18,17 @@ class AttendanceModel {
      * @return bool
      */
     public function register($user_id, $event_id, $token, $scanner_id = null) {
-        $this->db->query('INSERT IGNORE INTO attendance (user_id, event_id, token_used, scanner_id)
-                        VALUES(:user_id, :event_id, :token_used, :scanner_id)');
+        // Obtenemos la fecha actual de PHP (que ya está en America/Lima gracias a config.php)
+        $now = date('Y-m-d H:i:s');
+        
+        $this->db->query('INSERT IGNORE INTO attendance (user_id, event_id, token_used, scanner_id, scanned_at)
+                        VALUES(:user_id, :event_id, :token_used, :scanner_id, :scanned_at)');
         
         $this->db->bind(':user_id', $user_id);
         $this->db->bind(':event_id', $event_id);
         $this->db->bind(':token_used', $token);
         $this->db->bind(':scanner_id', $scanner_id);
+        $this->db->bind(':scanned_at', $now);
         
         return $this->db->execute();
     }
