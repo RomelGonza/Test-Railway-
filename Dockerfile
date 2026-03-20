@@ -22,8 +22,12 @@ RUN cd /etc/apache2/mods-enabled \
 # 3. Habilitar módulos necesarios
 RUN a2enmod rewrite headers
 
-# 4. Virtualhost apuntando a /public
-RUN echo '<VirtualHost *:80>\n\
+# 4. Virtualhost dinámico apuntando a /public
+# Railway inyecta $PORT, Apache debe escuchar ahí.
+RUN sed -i 's/Listen 80/Listen ${PORT}/g' /etc/apache2/ports.conf && \
+    sed -i 's/<VirtualHost \*:80>/<VirtualHost *:${PORT}>/g' /etc/apache2/sites-available/000-default.conf
+
+RUN echo '<VirtualHost *:${PORT}>\n\
     DocumentRoot /var/www/html/public\n\
     <Directory /var/www/html/public>\n\
         Options Indexes FollowSymLinks\n\
@@ -50,7 +54,7 @@ RUN chown -R www-data:www-data /var/www/html \
     && mkdir -p /var/www/html/public/uploads \
     && chmod 775 /var/www/html/public/uploads
 
-EXPOSE 80
+EXPOSE ${PORT}
 
 # Entrypoint: verificar y limpiar MPM antes de arrancar Apache
 # Garantiza estado correcto incluso con caché de Railway
