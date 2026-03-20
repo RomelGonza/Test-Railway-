@@ -957,38 +957,87 @@ else: ?>
 endif; ?>
         </div>
 
-        <!-- ═══ ASISTENCIAS (IN PROGRESS) ═══ -->
+        <!-- ═══ ASISTENCIAS ═══ -->
         <div id="asistencias" class="admin-section">
             <div class="sec-header">
                 <h2>Control de Asistencias ONTA 2026</h2>
                 <span class="count-pill" style="background: var(--pink-dim); color: var(--pink);">
-                    <i class="fa-solid fa-microchip"></i> Módulo QR
+                    <i class="fa-solid fa-microchip"></i> <span id="count-asistencias"><?php echo count($data['attendances'] ?? []); ?></span> escaneos
                 </span>
             </div>
 
-            <div class="empty-state" style="background: var(--surface); border-radius: 24px; border: 1px dashed var(--border2); padding: 6rem 2rem;">
-                <div style="position: relative; display: inline-block; margin-bottom: 2rem;">
-                    <i class="fa-solid fa-qrcode" style="font-size: 5rem; opacity: 0.15;"></i>
-                    <i class="fa-solid fa-screwdriver-wrench" style="position: absolute; bottom: 0; right: -10px; font-size: 2rem; color: var(--pink);"></i>
+            <!-- Módulo de Marcado Manual -->
+            <div style="background: var(--surface2); padding: 1.5rem 2rem; border-radius: 16px; border: 1px solid var(--border); margin-bottom: 2rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 1rem; flex: 1; min-width: 300px;">
+                    <div style="width: 45px; height: 45px; border-radius: 12px; background: rgba(34, 197, 94, 0.15); color: #22c55e; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
+                        <i class="fa-solid fa-keyboard"></i>
+                    </div>
+                    <div>
+                        <h3 style="font-family:'Source Serif 4',serif; color:#fff; font-size:1.1rem; margin-bottom:0.15rem;">Marcado de Asistencia Manual</h3>
+                        <p style="color:var(--muted); font-size:0.8rem; margin:0;">Utiliza este módulo si el escaneo QR falla. Ingresa el DNI o el correo.</p>
+                    </div>
                 </div>
-                <h3 style="color: #fff; font-size: 1.5rem; margin-bottom: 0.5rem; font-family: 'Source Serif 4', serif;">Implementación en Proceso</h3>
-                <p style="max-width: 450px; margin: 0 auto; line-height: 1.7;">
-                    Estamos desarrollando el sistema de control de accesos mediante **Código QR**. Muy pronto podrás escanear credenciales y generar reportes de asistencia en tiempo real.
-                </p>
-                
-                <div style="margin-top: 3rem; display: flex; justify-content: center; gap: 1rem;">
-                    <div style="padding: 1rem; background: var(--surface2); border-radius: 12px; border: 1px solid var(--border); width: 140px;">
-                        <i class="fa-solid fa-laptop-code" style="color: var(--pink); margin-bottom: 0.5rem;"></i>
-                        <div style="font-size: 0.65rem; text-transform: uppercase;">Frontend</div>
-                        <div style="font-weight: 700; font-size: 0.8rem; color: #fff;">80% Listo</div>
-                    </div>
-                    <div style="padding: 1rem; background: var(--surface2); border-radius: 12px; border: 1px solid var(--border); width: 140px;">
-                        <i class="fa-solid fa-server" style="color: var(--blue); margin-bottom: 0.5rem;"></i>
-                        <div style="font-size: 0.65rem; text-transform: uppercase;">Backend</div>
-                        <div style="font-weight: 700; font-size: 0.8rem; color: #fff;">40% Listo</div>
-                    </div>
+                <div style="display:flex; gap:0.5rem; align-items:stretch; flex: 0 1 auto;">
+                    <input type="text" id="manual_search" placeholder="DNI o Correo..." class="adm-input" autocomplete="off" style="width: 250px; border-color:var(--border2); margin:0;" onkeypress="if(event.key === 'Enter') marcarAsistenciaManual();">
+                    <button type="button" onclick="marcarAsistenciaManual()" class="btn-save" style="margin:0; padding:0 1.25rem; font-size:0.85rem;" id="btn-manual">
+                        <i class="fa-solid fa-check"></i>
+                    </button>
                 </div>
             </div>
+            <div id="manual_alert" style="display:none; padding:1rem; border-radius:12px; margin-bottom:1.5rem; font-weight:600; font-size:0.85rem; text-align:center;"></div>
+
+
+            <?php if (empty($data['attendances'])): ?>
+                <div class="empty-state">
+                    <i class="fa-solid fa-qrcode" style="font-size:4rem; opacity:0.3; margin-bottom:1rem; display:block;"></i>
+                    <h3>Bandeja Vacía</h3>
+                    <p>No se han registrado visitas con los códigos QR de los usuarios.</p>
+                </div>
+            <?php else: ?>
+            <div class="table-controls">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" class="search-input table-search" placeholder="Buscar por nombre, categoría o auditorio..." data-target="table-asistencias">
+                </div>
+                <div style="display:flex; gap:1rem; align-items:center;">
+                    <button type="button" onclick="if(window['exportTable_table-asistencias']) window['exportTable_table-asistencias']();" class="btn-save" style="margin:0; padding:0.6rem 1.2rem; font-size:0.8rem; border-radius:10px; display:inline-flex; align-items:center; gap:0.5rem; width:auto; text-decoration:none;">
+                        <i class="fa-solid fa-file-csv"></i> Generar Reporte Completo (Excel/CSV)
+                    </button>
+                    <div class="pagination" id="pag-asistencias"></div>
+                </div>
+            </div>
+
+            <div class="table-wrap">
+                <table class="adm-table" id="table-asistencias">
+                    <thead>
+                        <tr>
+                            <th>ID Scan</th>
+                            <th>Fecha y Hora</th>
+                            <th>Investigador / Tipo</th>
+                            <th>Auditorio / Evento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach($data['attendances'] as $att): ?>
+                        <tr>
+                            <td><span class="td-id" style="font-size:0.85rem;">#<?php echo $att->attendance_id; ?></span></td>
+                            <td>
+                                <div style="white-space:nowrap; font-size:0.82rem; font-weight:600; color:#fff;"><?php echo date('d M Y', strtotime($att->local_scanned_at)); ?></div>
+                                <div class="td-sub" style="color:var(--pink); font-weight:600;"><i class="fa-regular fa-clock"></i> <?php echo date('H:i:s', strtotime($att->local_scanned_at)); ?></div>
+                            </td>
+                            <td>
+                                <div class="td-name"><?php echo htmlspecialchars($att->user_name); ?></div>
+                                <div class="td-sub"><span class="pill pill-purple" style="font-size:0.6rem; padding:0.2rem 0.5rem;"><?php echo strtoupper(str_replace('_', ' ', htmlspecialchars($att->user_category))); ?></span></div>
+                            </td>
+                            <td>
+                                <div style="font-weight:600; color:#fff; font-size:0.88rem;"><?php echo htmlspecialchars($att->event_name); ?></div>
+                            </td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php endif; ?>
         </div>
 
     </div><!-- /content -->
@@ -1196,12 +1245,46 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        // Setup global export function for this table
+        window['exportTable_' + tableId] = function() {
+            let csv = [];
+            // Header
+            const ths = table.querySelectorAll('thead th');
+            const headerArr = [];
+            ths.forEach(th => headerArr.push('"' + th.innerText.replace(/"/g, '""') + '"'));
+            csv.push(headerArr.join(','));
+            
+            // Rows matching current filter (ignoring pagination)
+            filteredRows.forEach(row => {
+                let rowData = [];
+                const cols = row.querySelectorAll('td');
+                cols.forEach(col => {
+                    // Extract innerText and replace newlines with spaces for clean CSV formatting
+                    let text = col.innerText.trim().replace(/\n/g, ' - ').replace(/"/g, '""');
+                    rowData.push('"' + text + '"');
+                });
+                csv.push(rowData.join(','));
+            });
+            
+            // Trigger download con soporte a UTF-8 (BOM) para Excel
+            const bom = "\uFEFF";
+            const csvData = new Blob([bom + csv.join('\n')], {type: 'text/csv;charset=utf-8;'});
+            const downloadLink = document.createElement('a');
+            downloadLink.download = 'Reporte_' + tableId + '_' + new Date().toISOString().split('T')[0] + '.csv';
+            downloadLink.href = window.URL.createObjectURL(csvData);
+            downloadLink.style.display = 'none';
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        };
+
         updateTable();
     }
 
     initTable('table-inscripciones', 'pag-inscripciones');
     initTable('table-resumenes', 'pag-resumenes');
     initTable('table-pagos', 'pag-pagos');
+    initTable('table-asistencias', 'pag-asistencias');
 });
 
 function confirmDelete(item) {
@@ -1308,6 +1391,64 @@ async function editAbstract(id) {
     } catch (e) {
         alert('Error al obtener datos del resumen');
     }
+}
+
+async function marcarAsistenciaManual() {
+    const input = document.getElementById('manual_search');
+    const valor = input.value.trim();
+
+    if (!valor) {
+        showManualAlert('Por favor, ingresa un DNI o un Correo Electrónico.', 'error');
+        return;
+    }
+
+    try {
+        input.disabled = true;
+        const btn = document.getElementById('btn-manual');
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+        
+        const formData = new FormData();
+        formData.append('query', valor);
+
+        const response = await fetch('<?php echo URLROOT; ?>/onta_admin/manualAttendance', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.status === 'success') {
+            showManualAlert('✅ Asistencia registrada: ' + data.user_name, 'success');
+            setTimeout(() => location.reload(), 1500); // recarga para ver la fila nueva
+        } else {
+            showManualAlert('❌ ' + (data.message || 'Error desconocido.'), 'error');
+        }
+    } catch (e) {
+        showManualAlert('❌ Error de conexión al comunicarse con el servidor.', 'error');
+    } finally {
+        input.disabled = false;
+        input.value = '';
+        input.focus();
+        document.getElementById('btn-manual').innerHTML = '<i class="fa-solid fa-check"></i>';
+    }
+}
+
+function showManualAlert(msg, type) {
+    const box = document.getElementById('manual_alert');
+    box.textContent = msg;
+    box.style.display = 'block';
+    if (type === 'success') {
+        box.style.background = 'rgba(34, 197, 94, 0.15)';
+        box.style.color = '#22c55e';
+        box.style.border = '1px solid rgba(34,197,94,0.3)';
+    } else {
+        box.style.background = 'rgba(239, 68, 68, 0.15)';
+        box.style.color = '#ef4444';
+        box.style.border = '1px solid rgba(239,68,68,0.3)';
+    }
+    setTimeout(() => {
+        box.style.display = 'none';
+    }, 5000);
 }
 </script>
 </body>

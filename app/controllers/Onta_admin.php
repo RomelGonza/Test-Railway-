@@ -4,11 +4,13 @@ class Onta_admin extends Controller {
     private $userModel;
     private $abstractModel;
     private $inscriptionModel;
+    private $attendanceModel;
     
     public function __construct() {
         $this->userModel = $this->model('User');
         $this->abstractModel = $this->model('AbstractModel');
         $this->inscriptionModel = $this->model('Inscription');
+        $this->attendanceModel = $this->model('AttendanceModel');
     }
 
     public function index() {
@@ -121,11 +123,13 @@ class Onta_admin extends Controller {
         $abstracts = $this->abstractModel->getAllAbstracts();
         $inscriptions = $this->inscriptionModel->getAllInscriptions();
         $users = $this->userModel->getAllUsers();
+        $attendances = $this->attendanceModel->getAllAttendances();
 
         $data = [
             'abstracts' => $abstracts,
             'inscriptions' => $inscriptions,
-            'users' => $users
+            'users' => $users,
+            'attendances' => $attendances
         ];
         $this->view('admin/dashboard', $data);
     }
@@ -298,6 +302,51 @@ class Onta_admin extends Controller {
             } else {
                 die('Error al actualizar el resumen');
             }
+        }
+    }
+
+    public function manualAttendance() {
+        if (!$this->isAdminLoggedIn()) {
+            http_response_code(403);
+            echo json_encode(['status' => 'error', 'message' => 'No autorizado']);
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $query = trim($_POST['query']);
+            
+            if (empty($query)) {
+                echo json_encode(['status' => 'error', 'message' => 'Por favor, ingresa un correo o DNI.']);
+                exit();
+            }
+
+            // Find user
+            $user = $this->userModel->findUserByDniOrEmail($query);
+
+            if (!$user) {
+                echo json_encode(['status' => 'error', 'message' => 'Usuario no encontrado con los datos proporcionados.']);
+                exit();
+            }
+
+            // Congreso Principal event ID (default to 1)
+            $event_id = 1;
+
+            if ($this->attendanceModel->hasAttendance($user->id, $event_id)) {
+                echo json_encode(['status' => 'error', 'message' => 'El usuario ya registró su asistencia en este evento.']);
+                exit();
+            }
+
+            // Create a pseudo-token for manual entry
+            $token_used = 'MANUAL_' . substr(md5(uniqid()), 0, 8);
+            $scanner_id = $_SESSION['admin_id'];
+
+            // Register attendance (AttendanceModel already uses correct America/Lima time)
+            if ($this->attendanceModel->register($user->id, $event_id, $token_used, $scanner_id)) {
+                echo json_encode(['status' => 'success', 'user_name' => htmlspecialchars($user->name)]);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'No se pudo guardar la asistencia. Comuníquese con soporte.']);
+            }
+            exit();
         }
     }
 

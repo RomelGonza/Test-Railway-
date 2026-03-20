@@ -144,5 +144,21 @@ class AttendanceModel {
         
         return $this->db->execute();
     }
+
+    /**
+     * Obtiene todos los registros de asistencia global para el panel de administración
+     * Aplica la regla de descontar 5 horas a la columna scanned_at (UTC)
+     * 
+     * @return array
+     */
+    public function getAllAttendances() {
+        $this->db->query("SELECT a.id as attendance_id, u.name as user_name, u.user_category, 
+                                 e.name as event_name, DATE_SUB(a.scanned_at, INTERVAL 5 HOUR) as local_scanned_at 
+                          FROM attendance a
+                          JOIN users u ON a.user_id = u.id
+                          JOIN events e ON a.event_id = e.id
+                          ORDER BY a.scanned_at DESC");
+        return $this->db->resultSet();
+    }
 }
 ?>

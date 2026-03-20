@@ -62,6 +62,14 @@ class User {
         }
     }
 
+    // Find user by DNI or Email and return object
+    public function findUserByDniOrEmail($query) {
+        $this->db->query('SELECT * FROM users WHERE email = :query OR dni = :query LIMIT 1');
+        $this->db->bind(':query', $query);
+
+        return $this->db->single();
+    }
+
     // Get User by ID
     public function getUserById($id) {
         $this->db->query('SELECT * FROM users WHERE id = :id');
