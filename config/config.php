@@ -9,24 +9,21 @@ define('DB_PORT', getenv('MYSQLPORT') ?: '3306');
 // App Root
 define('APPROOT', dirname(dirname(__FILE__)) . '/app');
 // URL Root — read from environment or detect dynamically from request
-if (getenv('APP_ENV') === 'production') {
+if (getenv('RAILWAY_STATIC_URL')) {
+    // Prioridad para Railway: usa el dominio público generado por la plataforma
+    $urlroot = 'https://' . getenv('RAILWAY_STATIC_URL');
+} elseif (getenv('APP_ENV') === 'production') {
     if (!empty(getenv('APP_URL'))) {
         $urlroot = getenv('APP_URL');
     } else {
         $forwarded_proto = $_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '';
-        if ($forwarded_proto === 'https') {
-            $scheme = 'https';
-        } elseif (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') {
-            $scheme = 'https';
-        } else {
-            $scheme = 'http';
-        }
+        $scheme = ($forwarded_proto === 'https' || (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')) ? 'https' : 'http';
         $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'] ?? 'localhost';
         $urlroot = $scheme . '://' . $host;
     }
 } else {
-    // Development: sin slash final para consistencia con las vistas
-    $urlroot = rtrim(getenv('APP_URL') ?: 'http://localhost/onta', '/');
+    // Entorno de desarrollo local
+    $urlroot = rtrim(getenv('APP_URL') ?: 'http://localhost/onta_dev', '/');
 }
 // URLROOT sin slash final para evitar dobles slashes en rutas
 define('URLROOT', rtrim($urlroot, '/'));
