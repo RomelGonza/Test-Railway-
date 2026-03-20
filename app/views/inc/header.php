@@ -174,91 +174,62 @@
     </style>
 
     <script>
-        // Lógica de carga simulada y control de sesión
-        document.addEventListener("DOMContentLoaded", function() {
+        (function() {
             const preloader = document.getElementById('onta-preloader');
-            
-            // Forzar preloader desde PHP (Login/Logout)
-            <?php if(isset($_SESSION['force_preloader'])) : ?>
-                sessionStorage.removeItem('ontaPreloaderShown');
-                <?php unset($_SESSION['force_preloader']); ?>
-            <?php endif; ?>
+            if (!preloader) return;
 
-            // Verificar si es una recarga de página usando la API de navegación
+            // Detección de recarga y sesión
             const navEntries = performance.getEntriesByType("navigation");
             const isReload = navEntries.length > 0 && navEntries[0].type === "reload";
 
-            // Mostrar el preloader si es la primera vez en la sesión, O si se ha recargado la página manualmente
+            // Si ya se mostró en esta navegación (y no es recarga), quitarlo de golpe
             if (!isReload && sessionStorage.getItem('ontaPreloaderShown')) {
-                // Si ya se mostró y no es una recarga (es decir, navegación normal), ocultar
                 preloader.style.display = 'none';
-                return; // Detener la ejecución del resto del script
+                return;
             }
 
             const bar = document.getElementById('preloader-bar');
             const percent = document.getElementById('preloader-percent');
             let progress = 0;
-            let timeElapsed = 0;
             
-            // Simular carga progresiva
-            const loadInterval = setInterval(() => {
-                timeElapsed += 50;
-                
-                // La carga avanza rápido al principio, luego se ralentiza
-                let increment = 0;
-                if (progress < 40) {
-                    increment = Math.random() * 8 + 2; 
-                } else if (progress < 80) {
-                    increment = Math.random() * 4 + 1;
-                } else {
-                    increment = Math.random() * 1.5 + 0.5;
-                }
-                
-                progress += increment;
-                
-                // Limitar al 99% mientras sigue cargando la página
-                if (progress > 99) {
-                    progress = 99;
-                }
-                
-                // Actualizar UI
-                const currentPercent = Math.floor(progress);
-                bar.style.width = currentPercent + '%';
-                percent.innerText = currentPercent + '%';
-            }, 60);
-
-            // Cuando todo (imágenes, scripts) ha cargado realmente
-            window.addEventListener('load', function() {
-                clearInterval(loadInterval); // Detener simulación
-                
-                // Completar al 100%
-                bar.style.width = '100%';
-                percent.innerText = '100%';
-                
-                // Marcar en la sesión que ya se mostró
+            // Función para ocultar el preloader de forma segura
+            const hidePreloader = () => {
                 sessionStorage.setItem('ontaPreloaderShown', 'true');
+                if (window.loadInterval) clearInterval(window.loadInterval);
                 
-                // Retraso para que el usuario pueda ver el 100% antes de desaparecer
+                if (bar) bar.style.width = '100%';
+                if (percent) percent.innerText = '100%';
+                
                 setTimeout(() => {
                     preloader.classList.add('fade-out');
-                    
-                    // Remover del DOM para que no afecte clics futuros
-                    setTimeout(() => {
-                        preloader.style.display = 'none';
-                    }, 650); // Mismo tiempo que la transición CSS (0.6s)
-                }, 400); 
-            });
-            
-            // Seguridad: Si la página tarda demasiado (más de 10 seg), forzar quitar el preloader
-            setTimeout(() => {
-                if(preloader.style.display !== 'none') {
-                    clearInterval(loadInterval);
-                    sessionStorage.setItem('ontaPreloaderShown', 'true');
-                    preloader.classList.add('fade-out');
-                    setTimeout(() => { preloader.style.display = 'none'; }, 650);
-                }
-            }, 10000);
-        });
+                    setTimeout(() => { preloader.style.display = 'none'; }, 600);
+                }, 300);
+            };
+
+            // Iniciar animación de progreso inmediatamente
+            window.loadInterval = setInterval(() => {
+                if (progress < 40) progress += Math.random() * 5 + 2;
+                else if (progress < 85) progress += Math.random() * 2 + 0.5;
+                else if (progress < 98) progress += 0.2;
+                
+                if (progress > 99) progress = 99;
+                
+                const current = Math.floor(progress);
+                if (bar) bar.style.width = current + '%';
+                if (percent) percent.innerText = current + '%';
+            }, 50);
+
+            // Escuchar el evento de carga completa
+            window.addEventListener('load', hidePreloader);
+
+            // SEGURIDAD: Si la página ya está cargada o el evento se dispara tarde
+            if (document.readyState === 'complete') {
+                hidePreloader();
+            }
+
+            // SEGURIDAD 2: Un timeout forzado de 6 segundos por si algo falla
+            setTimeout(hidePreloader, 6000);
+        })();
     </script>
     
     <nav class="navbar">

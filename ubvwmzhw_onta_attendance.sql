@@ -20,6 +20,12 @@ CREATE TABLE users (
   email VARCHAR(255) UNIQUE NOT NULL,
   password VARCHAR(255) NOT NULL,
   role VARCHAR(20) DEFAULT 'attendee',
+  user_category ENUM('miembro_onta','no_miembro','extranjero','nacional') DEFAULT 'no_miembro',
+  dni VARCHAR(15) DEFAULT NULL,
+  university VARCHAR(255) DEFAULT NULL,
+  professional_school VARCHAR(255) DEFAULT NULL,
+  phone VARCHAR(20) DEFAULT NULL,
+  department VARCHAR(100) DEFAULT NULL,
   api_token VARCHAR(64) DEFAULT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -95,6 +101,60 @@ VALUES
   ('Asistente 1', 'asistente1@onta.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/ym', 'attendee'),
   ('Asistente 2', 'asistente2@onta.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/ym', 'attendee')
 ON DUPLICATE KEY UPDATE updated_at = CURRENT_TIMESTAMP;
+
+-- ============================================================================
+-- 10. TABLAS ADICIONALES (Abstracts, Agenda, Gallery, Inscriptions)
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS abstracts (
+  id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user_id INT(11) NOT NULL,
+  titulo VARCHAR(255) NOT NULL,
+  autores TEXT NOT NULL,
+  afiliacion VARCHAR(255) NOT NULL,
+  correo VARCHAR(255) NOT NULL,
+  keywords VARCHAR(255) NOT NULL,
+  archivo_pdf VARCHAR(255) NOT NULL,
+  estado ENUM('pendiente','en revision','aprobado','rechazado') DEFAULT 'pendiente',
+  fecha_envio TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  codigo_seguimiento VARCHAR(10) DEFAULT NULL,
+  UNIQUE KEY unique_tracking (codigo_seguimiento),
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS agenda (
+  id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  activity_title VARCHAR(255) NOT NULL,
+  speaker VARCHAR(255) DEFAULT NULL,
+  category VARCHAR(100) DEFAULT NULL,
+  start_time DATETIME DEFAULT NULL,
+  end_time DATETIME DEFAULT NULL,
+  description TEXT,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS gallery (
+  id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  category VARCHAR(100) DEFAULT NULL,
+  image_path VARCHAR(255) DEFAULT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS inscriptions (
+  id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  user_id INT(11) DEFAULT NULL,
+  full_name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  phone VARCHAR(50) DEFAULT NULL,
+  country VARCHAR(100) DEFAULT NULL,
+  institution VARCHAR(255) DEFAULT NULL,
+  payment_status ENUM('pending','verified','rejected') DEFAULT 'pending',
+  payment_receipt VARCHAR(255) DEFAULT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+);
 
 -- ============================================================================
 -- FIN del script

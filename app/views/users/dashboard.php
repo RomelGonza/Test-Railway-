@@ -834,18 +834,15 @@
     </style>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        (function() {
             const preloader = document.getElementById('onta-preloader');
-            
-            // Forzar preloader desde PHP
-            <?php if(isset($_SESSION['force_preloader'])) : ?>
-                sessionStorage.removeItem('ontaPreloaderShown');
-                <?php unset($_SESSION['force_preloader']); ?>
-            <?php endif; ?>
+            if (!preloader) return;
 
+            // Detección de recarga y sesión
             const navEntries = performance.getEntriesByType("navigation");
             const isReload = navEntries.length > 0 && navEntries[0].type === "reload";
 
+            // Si ya se mostró (y no es recarga), quitarlo
             if (!isReload && sessionStorage.getItem('ontaPreloaderShown')) {
                 preloader.style.display = 'none';
                 return;
@@ -855,39 +852,32 @@
             const percent = document.getElementById('preloader-percent');
             let progress = 0;
             
-            const loadInterval = setInterval(() => {
-                if (progress < 40) progress += Math.random() * 8 + 2; 
-                else if (progress < 80) progress += Math.random() * 4 + 1;
-                else progress += Math.random() * 1.5 + 0.5;
-                
-                if (progress > 99) progress = 99;
-                
-                const currentPercent = Math.floor(progress);
-                bar.style.width = currentPercent + '%';
-                percent.innerText = currentPercent + '%';
-            }, 60);
-
-            window.addEventListener('load', function() {
-                clearInterval(loadInterval);
-                bar.style.width = '100%';
-                percent.innerText = '100%';
+            const hidePreloader = () => {
                 sessionStorage.setItem('ontaPreloaderShown', 'true');
-                
+                if (window.loadIntervalDash) clearInterval(window.loadIntervalDash);
+                if (bar) bar.style.width = '100%';
+                if (percent) percent.innerText = '100%';
                 setTimeout(() => {
                     preloader.classList.add('fade-out');
-                    setTimeout(() => { preloader.style.display = 'none'; }, 650);
-                }, 400); 
-            });
+                    setTimeout(() => { preloader.style.display = 'none'; }, 600);
+                }, 300);
+            };
 
-            setTimeout(() => {
-                if(preloader.style.display !== 'none') {
-                    clearInterval(loadInterval);
-                    sessionStorage.setItem('ontaPreloaderShown', 'true');
-                    preloader.classList.add('fade-out');
-                    setTimeout(() => { preloader.style.display = 'none'; }, 650);
-                }
-            }, 8000);
-        });
+            window.loadIntervalDash = setInterval(() => {
+                if (progress < 45) progress += Math.random() * 6 + 2;
+                else if (progress < 85) progress += Math.random() * 2 + 0.5;
+                else if (progress < 98) progress += 0.2;
+                if (progress > 99) progress = 99;
+                
+                const current = Math.floor(progress);
+                if (bar) bar.style.width = current + '%';
+                if (percent) percent.innerText = current + '%';
+            }, 50);
+
+            window.addEventListener('load', hidePreloader);
+            if (document.readyState === 'complete') hidePreloader();
+            setTimeout(hidePreloader, 5000); // Timeout forzado a 5s en dashboard
+        })();
     </script>
 
 <!-- ────────────── SIDEBAR ────────────── -->
@@ -999,7 +989,7 @@
 
         <!-- Sección QR de Asistencia -->
         <div style="margin-top: 3rem;">
-            <?php require_once APPROOT . '/views/attendance/qr.php'; ?>
+            <!-- El QR ha sido movido a su propia pestaña dedicada en el menú de asistencia para evitar conflictos visuales y errores de librería en la vista principal -->
         </div>
     </div>
 
@@ -1123,13 +1113,94 @@
                 </div>
             </div>
 
-            <div class="qr-card">
-                <i class="fa-solid fa-qrcode"></i>
-                <div>
-                    <h4>Sistema de Marcado QR</h4>
-                    <p>Presentarás tu credencial digital en la entrada de cada auditorio para registrar tu asistencia automáticamente en tiempo real.</p>
+            <!-- Tarjeta de Asistencia QR -->
+            <?php if (!$event): ?>
+                <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 12px; padding: 20px; margin-top: 2rem; color: #856404; display: flex; gap: 15px; align-items: flex-start;">
+                    <i class="fa-solid fa-exclamation-triangle" style="font-size: 1.5rem; color: #d97706; margin-top: 3px;"></i>
+                    <div>
+                        <strong style="display: block; font-size: 1.05rem; margin-bottom: 5px;">No hay evento activo actualmente</strong>
+                        <p style="margin: 0; font-size: 0.9rem;">Ponte en contacto con los organizadores para más información o espera al inicio del evento.</p>
+                    </div>
                 </div>
-            </div>
+            <?php else: ?>
+                <div style="background: #fff; border-radius: 18px; padding: 30px; box-shadow: var(--shadow); max-width: 480px; margin: 2rem auto 0; text-align: center; border: 1px solid var(--border);">
+                    <!-- Encabezado -->
+                    <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px solid var(--border);">
+                        <h3 style="margin: 0 0 0.5rem; color: var(--purple); font-size: 1.25rem;">
+                            <i class="fa-solid fa-ticket"></i> Mi Código QR
+                        </h3>
+                        <p style="margin: 0; color: var(--muted); font-size: 0.9rem; font-weight: 500;">
+                            <?php echo htmlspecialchars($event->name); ?>
+                        </p>
+                        <p style="margin: 0.5rem 0 0; color: var(--pink); font-size: 0.85rem; font-weight: 600;">
+                            <i class="fa-regular fa-calendar"></i> <?php echo date('d/m/Y', strtotime($event->event_date)); ?>
+                        </p>
+                    </div>
+
+                    <!-- Estado Badge -->
+                    <div style="margin-bottom: 25px;">
+                        <?php if ($has_attended): ?>
+                            <div style="display: inline-block; background: var(--green-light); color: var(--green); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700;">
+                                <i class="fa-solid fa-check-circle"></i> Asistencia Registrada
+                            </div>
+                        <?php else: ?>
+                            <div style="display: inline-block; background: var(--gold-light); color: var(--gold); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700;">
+                                <i class="fa-solid fa-clock"></i> Asistencia Pendiente
+                            </div>
+                        <?php endif; ?>
+                    </div>
+
+                    <!-- Imagen QR -->
+                    <div style="margin: 25px 0; background: var(--cream); border: 2px dashed rgb(232, 225, 240); border-radius: 16px; padding: 25px; display: flex; align-items: center; justify-content: center;">
+                        <img id="dash-qr-image"
+                             src="<?php echo URLROOT; ?>/api/qr" 
+                             alt="Código QR de Asistencia"
+                             style="max-width: 100%; width: 220px; display: block; image-rendering: pixelated; mix-blend-mode: multiply;">
+                    </div>
+
+                    <!-- Botón Actualizar -->
+                    <button onclick="updateDashQR()" 
+                            style="background: var(--pink); color: #fff; border: none; padding: 12px 25px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: var(--transition); box-shadow: 0 8px 20px rgba(196,30,90,0.25);">
+                        <i class="fa-solid fa-arrows-rotate"></i> Actualizar QR
+                    </button>
+
+                    <!-- Información -->
+                    <div style="margin-top: 25px; padding-top: 20px; border-top: 2px solid var(--border); text-align: left; font-size: 0.85rem; color: var(--muted);">
+                        <p style="margin: 0.5rem 0; font-weight: 600;"><i class="fa-solid fa-circle-info"></i> Información Importante:</p>
+                        <ul style="margin: 10px 0 0 20px; padding: 0; line-height: 1.6;">
+                            <li>Muestra este código al personal de seguridad para registrar tu acceso.</li>
+                            <li>Por seguridad, el código expira en <?php echo defined('QR_EXPIRES_HOURS') ? QR_EXPIRES_HOURS : '12'; ?> horas.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <script>
+                function updateDashQR() {
+                    const img = document.getElementById('dash-qr-image');
+                    const btn = event.currentTarget;
+                    const icon = btn.querySelector('i');
+                    
+                    // Animar botón
+                    icon.classList.add('fa-spin');
+                    btn.style.opacity = '0.8';
+                    
+                    const timestamp = new Date().getTime();
+                    
+                    img.onload = () => {
+                        icon.classList.remove('fa-spin');
+                        btn.style.opacity = '1';
+                    };
+                    
+                    img.onerror = () => {
+                        icon.classList.remove('fa-spin');
+                        btn.style.opacity = '1';
+                        console.error('No se pudo recargar el QR');
+                    };
+                    
+                    img.src = '<?php echo URLROOT; ?>/api/qr?t=' + timestamp;
+                }
+                </script>
+            <?php endif; ?>
         </div>
     </div>
 

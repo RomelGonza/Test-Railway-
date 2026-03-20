@@ -1,3 +1,5 @@
+<?php require APPROOT . '/views/inc/header.php'; ?>
+
 <?php
 // Vista de QR de Asistencia
 // Requiere: $event, $token, $has_attended
@@ -10,7 +12,16 @@ if (!$event): ?>
         <p style="margin: 0.5rem 0 0;">Ponte en contacto con los organizadores para más información.</p>
     </div>
 <?php else: ?>
-    <div style="background: #fff; border-radius: 18px; padding: 30px; box-shadow: 0 8px 30px rgba(26,22,37,0.10); max-width: 500px; margin: 20px auto; text-align: center;">
+    <!-- Sección de instrucción y encabezado -->
+    <div style="max-width: 600px; margin: 20px auto; padding: 0 15px; text-align: center;">
+        <h2 style="color: #1a1625; font-size: 1.5rem; margin-bottom: 0.5rem;">Sistema de Marcado QR</h2>
+        <p style="color: #6b7280; line-height: 1.6; font-size: 0.95rem;">
+            Presentarás tu credencial digital en la entrada de cada auditorio para registrar tu asistencia automáticamente en tiempo real.
+        </p>
+    </div>
+
+    <!-- Tarjeta de Credencial Digital -->
+    <div style="background: #fff; border-radius: 18px; padding: 30px; box-shadow: 0 8px 30px rgba(26,22,37,0.10); max-width: 480px; margin: 20px auto; text-align: center; border: 1px solid #f0f0f0;">
         
         <!-- Encabezado -->
         <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px solid #f0f0f0;">
@@ -41,7 +52,7 @@ if (!$event): ?>
         <!-- Imagen QR -->
         <div style="margin: 25px 0; background: #f9fafb; border: 3px dashed #e5e7eb; border-radius: 12px; padding: 20px; display: flex; align-items: center; justify-content: center;">
             <img id="qr-image"
-                 src="<?php echo URLROOT; ?>/api/qr" 
+                 src="<?php echo URLROOT; ?>api/qr" 
                  alt="Código QR"
                  style="max-width: 300px; display: block; image-rendering: pixelated;"
                  onload="console.log('QR loaded')"
@@ -70,8 +81,10 @@ if (!$event): ?>
     function updateQR() {
         const img = document.getElementById('qr-image');
         const timestamp = new Date().getTime();
-        img.src = '<?php echo URLROOT; ?>/api/qr?t=' + timestamp;
+        img.src = '<?php echo URLROOT; ?>api/qr?t=' + timestamp;
     }
     </script>
 
 <?php endif; ?>
+
+<?php require APPROOT . '/views/inc/footer.php'; ?>

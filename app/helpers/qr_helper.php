@@ -26,11 +26,8 @@ function generate_qr_png($token_string, $size = null) {
             $qrCode->setSize($size);
             $qrCode->setMargin(10);
             
-            // Generar PNG en memoria
-            $writer = new \Endroid\QrCode\Writer\PngWriter();
-            $result = $writer->write($qrCode);
-            
-            return $result->getString();
+            // Retornar el string PNG directamente (método estándar en v3)
+            return $qrCode->writeString();
         } catch (Exception $e) {
             error_log('Error generando QR con endroid: ' . $e->getMessage());
             // Fall through a phpqrcode

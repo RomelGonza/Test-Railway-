@@ -27,9 +27,8 @@ if (getenv('APP_ENV') === 'production') {
     // Development: sin slash final para consistencia con las vistas
     $urlroot = rtrim(getenv('APP_URL') ?: 'http://localhost/onta', '/');
 }
-// Asegurar que siempre termina con /
-#define('URLROOT', rtrim($urlroot, '/') . '/');
-define('URLROOT', rtrim($urlroot, '/') . '/');
+// URLROOT sin slash final para evitar dobles slashes en rutas
+define('URLROOT', rtrim($urlroot, '/'));
 // Site Name
 define('SITENAME', getenv('SITENAME') ?: 'ONTA PERU 2026');
 // App Version

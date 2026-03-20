@@ -1,0 +1,59 @@
+services:
+  app:
+    build: .
+    container_name: onta_app
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/vendor
+      - ./docker/uploads:/var/www/html/public/uploads
+    environment:
+      - DB_HOST=db
+      - DB_USER=onta_user
+      - DB_PASS=onta_password
+      - DB_NAME=ubvwmzhw_onta
+      - APP_ENV=development
+      - APP_URL=http://localhost:8080
+    depends_on:
+      - db
+    networks:
+      - onta_network
+
+  db:
+    image: mysql:8.0
+    container_name: onta_db
+    restart: always
+    environment:
+      - MYSQL_DATABASE=ubvwmzhw_onta
+      - MYSQL_USER=onta_user
+      - MYSQL_PASSWORD=onta_password
+      - MYSQL_ROOT_PASSWORD=root_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./ubvwmzhw_onta_attendance.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - onta_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: onta_phpmyadmin
+    restart: always
+    environment:
+      - PMA_HOST=db
+      - MYSQL_ROOT_PASSWORD=root_password
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+    networks:
+      - onta_network
+
+networks:
+  onta_network:
+    driver: bridge
+
+volumes:
+  db_data:
