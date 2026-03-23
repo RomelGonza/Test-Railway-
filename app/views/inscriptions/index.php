@@ -19,40 +19,42 @@
                         </a>
                     </div>
                 <?php else : ?>
-                    <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; color: var(--purple);">
-                        <thead>
-                            <tr style="border-bottom: 2px solid var(--peach);">
-                                <th style="padding: 1.2rem; text-align: left;">Evento</th>
-                                <th style="padding: 1.2rem; text-align: left;">Fecha</th>
-                                <th style="padding: 1.2rem; text-align: left;">Institución</th>
-                                <th style="padding: 1.2rem; text-align: left;">Estado de Pago</th>
-                                <th style="padding: 1.2rem; text-align: center;">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach($data['inscriptions'] as $inscription) : ?>
-                                <tr style="border-bottom: 1px solid var(--yellow); transition: background 0.3s; cursor: pointer;">
-                                    <td style="padding: 1.2rem; font-weight: 600;">56ª Reunión Anual ONTA</td>
-                                    <td style="padding: 1.2rem;"><?php echo date('d/m/Y', strtotime($inscription->created_at)); ?></td>
-                                    <td style="padding: 1.2rem;"><?php echo $inscription->institution; ?></td>
-                                    <td style="padding: 1.2rem;">
-                                        <?php if($inscription->payment_status == 'pending') : ?>
-                                            <span style="background: var(--yellow); padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700;">Pendiente</span>
-                                        <?php elseif($inscription->payment_status == 'paid') : ?>
-                                            <span style="background: #a8f0ad; color: #155724; padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700;">Confirmado</span>
-                                        <?php else : ?>
-                                            <span style="background: var(--coral); color: white; padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700;">Rechazado</span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td style="padding: 1.2rem; text-align: center;">
-                                        <a href="#" class="btn btn-gold" style="padding: 0.5rem 1rem; font-size: 0.8rem;">
-                                            <i class="fa-solid fa-eye"></i> Detalle
-                                        </a>
-                                    </td>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; color: var(--purple); min-width: 600px;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--peach);">
+                                    <th style="padding: 1.2rem; text-align: left;">Evento</th>
+                                    <th style="padding: 1.2rem; text-align: left;">Fecha</th>
+                                    <th style="padding: 1.2rem; text-align: left;">Institución</th>
+                                    <th style="padding: 1.2rem; text-align: left;">Estado de Pago</th>
+                                    <th style="padding: 1.2rem; text-align: center;">Acciones</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <?php foreach($data['inscriptions'] as $inscription) : ?>
+                                    <tr style="border-bottom: 1px solid var(--yellow); transition: background 0.3s; cursor: pointer;">
+                                        <td style="padding: 1.2rem; font-weight: 600;">56ª Reunión Anual ONTA</td>
+                                        <td style="padding: 1.2rem;"><?php echo date('d/m/Y', strtotime($inscription->created_at)); ?></td>
+                                        <td style="padding: 1.2rem;"><?php echo $inscription->institution; ?></td>
+                                        <td style="padding: 1.2rem;">
+                                            <?php if($inscription->payment_status == 'pending') : ?>
+                                                <span style="background: var(--yellow); padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700;">Pendiente</span>
+                                            <?php elseif($inscription->payment_status == 'paid') : ?>
+                                                <span style="background: #a8f0ad; color: #155724; padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700;">Confirmado</span>
+                                            <?php else : ?>
+                                                <span style="background: var(--coral); color: white; padding: 0.3rem 0.8rem; border-radius: 50px; font-size: 0.8rem; font-weight: 700;">Rechazado</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td style="padding: 1.2rem; text-align: center;">
+                                            <a href="#" class="btn btn-gold" style="padding: 0.5rem 1rem; font-size: 0.8rem;">
+                                                <i class="fa-solid fa-eye"></i> Detalle
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 <?php endif; ?>
             </div>
         </div>

@@ -31,13 +31,13 @@
                     <!-- Input alternativo o para pruebas -->
                     <div class="mt-3">
                         <label for="tokenInput" class="form-label">O ingresa el token manualmente:</label>
-                        <div class="input-group">
+                        <div class="d-flex flex-column flex-md-row gap-2">
                             <input type="text" 
                                    class="form-control" 
                                    id="tokenInput" 
                                    placeholder="Pega el token aquí"
                                    autofocus>
-                            <button class="btn btn-primary" onclick="processToken()">
+                            <button class="btn btn-primary text-nowrap" onclick="processToken()">
                                 <i class="fas fa-arrow-right"></i> Procesar
                             </button>
                         </div>
@@ -62,16 +62,18 @@
                         <p class="text-muted text-center">Los escaneos aparecerán aquí...</p>
                     </div>
 
-                    <table class="table table-sm mt-3" id="scanTable" style="display: none;">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Email</th>
-                                <th>Hora</th>
-                            </tr>
-                        </thead>
-                        <tbody id="scanTableBody"></tbody>
-                    </table>
+                    <div class="table-responsive mt-3">
+                        <table class="table table-sm" id="scanTable" style="display: none;">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Hora</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scanTableBody"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

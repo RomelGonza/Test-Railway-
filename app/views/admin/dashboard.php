@@ -559,9 +559,89 @@
             font-family: inherit; margin-top: 1rem; transition: var(--transition);
         }
         .btn-save:hover { background: var(--pink-g); transform: translateY(-2px); }
+
+        /* ──────────────────────────────────
+           RESPONSIVE & MOBILE
+        ────────────────────────────────── */
+        .mobile-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; display: none;
+            backdrop-filter: blur(4px);
+        }
+        .mobile-overlay.active { display: block; }
+
+        #mobileMenuBtn {
+            display: none;
+            background: transparent; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer;
+        }
+
+        .manual-input-group {
+            display: flex; gap: 0.5rem; align-items: stretch; flex: 0 1 auto;
+        }
+
+        @media (max-width: 991px) {
+            :root { --sidebar-w: 260px; }
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 100;
+                box-shadow: 4px 0 20px rgba(0,0,0,0.5);
+            }
+            .sidebar.open { transform: translateX(0); }
+            
+            .main { margin-left: 0; width: 100%; }
+            #mobileMenuBtn { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; }
+            
+            .content { padding: 1.25rem; }
+            .topbar { padding: 1rem 1.25rem; flex-wrap: wrap; gap: 1rem; }
+            .topbar-actions { width: 100%; justify-content: flex-end; }
+            
+            .kpi-grid { grid-template-columns: 1fr; }
+            .welcome-banner { padding: 1.5rem; }
+            .welcome-banner h1 { font-size: 1.6rem; }
+            .welcome-banner .ghost { display: none; }
+            
+            .sec-header { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+            .table-controls { flex-direction: column; align-items: stretch; }
+            .search-box { max-width: 100%; }
+            
+            .adm-form-grid { grid-template-columns: 1fr; }
+            .adm-field[style*="grid-column"] { grid-column: span 1 !important; }
+            .details-grid { grid-template-columns: 1fr; }
+            
+            .status-card { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            
+            /* Manual Input form mobile */
+            .manual-input-group { flex-direction: column; width: 100%; }
+            #manual_search { width: 100% !important; }
+            #btn-manual { width: 100% !important; padding: 1rem !important; }
+            
+            /* Responsive adm-table fallback (Cards) */
+            .table-wrap { border: none; background: transparent; overflow: visible; }
+            table.adm-table thead { display: none; }
+            table.adm-table tbody { display: grid; gap: 1rem; }
+            table.adm-table tr { 
+                display: flex; flex-direction: column; 
+                background: var(--surface2); border: 1px solid var(--border) !important; 
+                border-radius: var(--radius); padding: 1rem; 
+            }
+            table.adm-table td { 
+                padding: 0.5rem 0; border: none !important; 
+                display: flex; flex-direction: column; align-items: flex-start; 
+                text-align: left;
+            }
+            table.adm-table td::before { 
+                content: attr(data-label); 
+                font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; 
+                color: var(--pink); font-weight: 800; margin-bottom: 0.2rem; display: block;
+            }
+            .action-btns { width: 100%; justify-content: flex-start; margin-top: 0.5rem; }
+            .act-btn { flex: 1; height: 40px; }
+        }
     </style>
 </head>
 <body>
+
+<div class="mobile-overlay" id="mobileOverlay"></div>
 
 <!-- ────────────── SIDEBAR ────────────── -->
 <aside class="sidebar">
@@ -603,7 +683,10 @@
 
     <!-- Topbar -->
     <header class="topbar">
-        <div class="topbar-title"><span>Panel Central</span> de Administración · ONTA 2026</div>
+        <div style="display:flex; align-items:center; gap: 1rem;">
+            <button id="mobileMenuBtn" aria-label="Abrir menú"><i class="fa-solid fa-bars"></i></button>
+            <div class="topbar-title"><span>Panel Central</span> de Administración · ONTA 2026</div>
+        </div>
         <div class="topbar-actions">
             <a href="<?php echo URLROOT; ?>" class="btn-site" target="_blank">
                 <i class="fa-solid fa-globe"></i> Ver Sitio Web
@@ -720,23 +803,23 @@ echo $pagos_ok;
     if ($u->role == 'admin')
         continue; ?>
                         <tr>
-                            <td><span class="td-id">#<?php echo $u->id; ?></span></td>
-                            <td>
+                            <td data-label="ID"><span class="td-id">#<?php echo $u->id; ?></span></td>
+                            <td data-label="Investigador / DNI">
                                 <div class="td-name"><?php echo htmlspecialchars($u->name); ?></div>
                                 <div class="td-sub"><i class="fa-solid fa-id-card"></i> <span class="td-mono"><?php echo htmlspecialchars($u->dni); ?></span></div>
                             </td>
-                            <td>
+                            <td data-label="Contacto">
                                 <div class="td-sub"><i class="fa-solid fa-envelope"></i> <?php echo htmlspecialchars($u->email); ?></div>
                                 <div class="td-sub"><i class="fa-solid fa-phone"></i> <?php echo htmlspecialchars($u->phone); ?></div>
                             </td>
-                            <td>
+                            <td data-label="Institución">
                                 <div style="font-weight:600; color:#fff; font-size:0.88rem;"><?php echo htmlspecialchars($u->university); ?></div>
                                 <div class="td-sub"><i class="fa-solid fa-location-dot"></i> <?php echo htmlspecialchars($u->department); ?></div>
                             </td>
-                            <td>
+                            <td data-label="Categoría">
                                 <span class="pill pill-purple"><?php echo str_replace('_', ' ', htmlspecialchars($u->user_category)); ?></span>
                             </td>
-                            <td>
+                            <td data-label="Acciones">
                                 <div class="action-btns">
                                     <button type="button" onclick="viewUserDetails(<?php echo $u->id; ?>)" title="Ver Todo" class="act-btn approve on">
                                         <i class="fa-solid fa-eye"></i>
@@ -800,32 +883,32 @@ else: ?>
                     <tbody>
                         <?php foreach ($data['abstracts'] ?? [] as $abs): ?>
                         <tr>
-                            <td>
+                            <td data-label="Fecha">
                                 <div style="white-space:nowrap; font-size:0.82rem;"><?php echo date('d M Y', strtotime($abs->fecha_envio)); ?></div>
                                 <div class="td-sub"><?php echo date('H:i', strtotime($abs->fecha_envio)); ?></div>
                             </td>
-                            <td>
+                            <td data-label="Código">
                                 <span class="badge-code" style="background: var(--pink-dim); color: var(--pink); padding: 0.3rem 0.6rem; border-radius: 6px; font-weight: 700; font-size: 0.85rem; border: 1px solid rgba(196,30,90,0.2);">
                                     <?php echo $abs->codigo_seguimiento; ?>
                                 </span>
                             </td>
-                            <td>
+                            <td data-label="Investigador">
                                 <div class="td-name" style="font-size:0.82rem;"><?php echo htmlspecialchars($abs->autores); ?></div>
                                 <div class="td-sub"><i class="fa-solid fa-building-columns"></i> <?php echo htmlspecialchars($abs->afiliacion); ?></div>
                                 <div class="td-sub"><i class="fa-solid fa-envelope"></i> <?php echo htmlspecialchars($abs->correo); ?></div>
                             </td>
-                            <td style="max-width:240px;">
+                            <td style="max-width:240px;" data-label="Título">
                                 <span style="font-family:'Source Serif 4',serif; font-size:0.88rem; color:#fff; line-height:1.4;"><?php echo htmlspecialchars($abs->titulo); ?></span>
                             </td>
-                            <td style="max-width:180px; font-size:0.78rem; color:var(--muted);">
+                            <td style="max-width:180px; font-size:0.78rem; color:var(--muted);" data-label="Keywords">
                                 <?php echo htmlspecialchars($abs->keywords); ?>
                             </td>
-                            <td>
+                            <td data-label="PDF">
                                 <a href="<?php echo URLROOT; ?>/uploads/abstracts/<?php echo urlencode($abs->archivo_pdf); ?>" target="_blank" class="file-link pdf">
                                     <i class="fa-solid fa-file-pdf"></i> PDF
                                 </a>
                             </td>
-                            <td>
+                            <td data-label="Acciones">
                                 <div class="action-btns">
                                     <form action="<?php echo URLROOT; ?>/onta_admin/updateAbstractStatus" method="POST">
                                         <input type="hidden" name="abstract_id" value="<?php echo $abs->id; ?>">
@@ -899,25 +982,25 @@ else: ?>
                     <tbody>
                         <?php foreach ($data['inscriptions'] ?? [] as $ins): ?>
                         <tr>
-                            <td>
+                            <td data-label="Fecha">
                                 <div style="white-space:nowrap; font-size:0.82rem;"><?php echo date('d M Y', strtotime($ins->created_at)); ?></div>
                                 <div class="td-sub"><?php echo date('H:i', strtotime($ins->created_at)); ?></div>
                             </td>
-                            <td>
+                            <td data-label="Participante">
                                 <div class="td-name"><?php echo htmlspecialchars($ins->full_name); ?></div>
                                 <div class="td-sub"><i class="fa-solid fa-map-pin"></i> <?php echo htmlspecialchars($ins->country); ?></div>
                                 <div class="td-sub"><i class="fa-solid fa-building-columns"></i> <?php echo htmlspecialchars($ins->institution); ?></div>
                             </td>
-                            <td>
+                            <td data-label="Contacto">
                                 <div class="td-sub"><i class="fa-solid fa-envelope"></i> <?php echo htmlspecialchars($ins->email); ?></div>
                                 <div class="td-sub"><i class="fa-solid fa-phone"></i> <?php echo htmlspecialchars($ins->phone); ?></div>
                             </td>
-                            <td>
+                            <td data-label="Comprobante">
                                 <a href="<?php echo URLROOT; ?>/uploads/receipts/<?php echo urlencode($ins->payment_receipt); ?>" target="_blank" class="file-link voucher">
                                     <i class="fa-solid fa-file-invoice-dollar"></i> Ver Voucher
                                 </a>
                             </td>
-                            <td>
+                            <td data-label="Acciones">
                                 <div class="action-btns">
                                     <form action="<?php echo URLROOT; ?>/onta_admin/updateInscriptionStatus" method="POST">
                                         <input type="hidden" name="inscription_id" value="<?php echo $ins->id; ?>">
@@ -982,7 +1065,7 @@ endif; ?>
                         <p style="color:var(--muted); font-size:0.8rem; margin:0;">Utiliza este módulo si el escaneo QR falla. Ingresa el DNI o el correo.</p>
                     </div>
                 </div>
-                <div style="display:flex; gap:0.5rem; align-items:stretch; flex: 0 1 auto;">
+                <div class="manual-input-group">
                     <input type="text" id="manual_search" placeholder="DNI o Correo..." class="adm-input" autocomplete="off" style="width: 250px; border-color:var(--border2); margin:0;" onkeypress="if(event.key === 'Enter') marcarAsistenciaManual();">
                     <button type="button" onclick="marcarAsistenciaManual()" class="btn-save" style="margin:0; padding:0 1.25rem; font-size:0.85rem;" id="btn-manual">
                         <i class="fa-solid fa-check"></i>
@@ -1025,16 +1108,16 @@ endif; ?>
                     <tbody>
                         <?php foreach($data['attendances'] as $att): ?>
                         <tr>
-                            <td><span class="td-id" style="font-size:0.85rem;">#<?php echo $att->attendance_id; ?></span></td>
-                            <td>
+                            <td data-label="ID Scan"><span class="td-id" style="font-size:0.85rem;">#<?php echo $att->attendance_id; ?></span></td>
+                            <td data-label="Fecha y Hora">
                                 <div style="white-space:nowrap; font-size:0.82rem; font-weight:600; color:#fff;"><?php echo date('d M Y', strtotime($att->local_scanned_at)); ?></div>
                                 <div class="td-sub" style="color:var(--pink); font-weight:600;"><i class="fa-regular fa-clock"></i> <?php echo date('H:i:s', strtotime($att->local_scanned_at)); ?></div>
                             </td>
-                            <td>
+                            <td data-label="Investigador / Tipo">
                                 <div class="td-name"><?php echo htmlspecialchars($att->user_name); ?></div>
                                 <div class="td-sub"><span class="pill pill-purple" style="font-size:0.6rem; padding:0.2rem 0.5rem;"><?php echo strtoupper(str_replace('_', ' ', htmlspecialchars($att->user_category))); ?></span></div>
                             </td>
-                            <td>
+                            <td data-label="Auditorio / Evento">
                                 <div style="font-weight:600; color:#fff; font-size:0.88rem;"><?php echo htmlspecialchars($att->event_name); ?></div>
                             </td>
                         </tr>
@@ -1180,6 +1263,33 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target) target.classList.add('active');
         });
     });
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.querySelector('.sidebar');
+    const mobileOverlay = document.getElementById('mobileOverlay');
+
+    if (mobileMenuBtn && sidebar && mobileOverlay) {
+        mobileMenuBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            mobileOverlay.classList.add('active');
+        });
+        
+        mobileOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            mobileOverlay.classList.remove('active');
+        });
+        
+        // Also close sidebar on mobile when a link is clicked
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 991) {
+                    sidebar.classList.remove('open');
+                    mobileOverlay.classList.remove('active');
+                }
+            });
+        });
+    }
 
     // ═══ PAGINATION & SEARCH LOGIC ═══
     function initTable(tableId, paginationId, itemsPerPage = 10) {
