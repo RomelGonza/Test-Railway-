@@ -1157,7 +1157,7 @@
                                 <i class="fa-solid fa-check"></i>
                             </div>
                             <div>
-                                <h4 style="margin: 0 0 5px; font-size: 1rem; color: #fff;"><?php echo date('d \d\e M Y', $time); ?></h4>
+                                <h4 style="margin: 0 0 5px; font-size: 1rem; color: #000000ff;"><?php echo date('d \d\e M Y', $time); ?></h4>
                                 <p style="margin: 0; font-size: 0.85rem; color: var(--muted);">
                                     <i class="fa-regular fa-clock"></i> Hora de escaneo: <?php echo date('H:i:s', $time); ?>
                                 </p>
