@@ -257,6 +257,8 @@ class Users extends Controller {
             $has_attended = $attendanceModel->hasAttendance($_SESSION['user_id'], $event->id);
         }
 
+        $user_attendances = $attendanceModel->getByUser($_SESSION['user_id']);
+
         $data = [
             'user' => $user,
             'abstracts' => $abstracts,
@@ -264,7 +266,8 @@ class Users extends Controller {
             'total_resumenes' => count($abstracts),
             'event' => $event,
             'token' => $token,
-            'has_attended' => $has_attended
+            'has_attended' => $has_attended,
+            'user_attendances' => $user_attendances
         ];
 
         $this->view('users/dashboard', $data);

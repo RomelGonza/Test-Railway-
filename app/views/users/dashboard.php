@@ -1099,107 +1099,75 @@
     <!-- ═══ ASISTENCIA ═══ -->
     <div id="asistencia" class="dash-content" style="display:none;">
         <div class="panel">
-            <h2 class="panel-title">Registro de Asistencia</h2>
-            <p class="panel-desc" style="margin-bottom: 2rem;">Tu acceso a los recintos del congreso se verificará mediante código QR personal.</p>
+            <h2 class="panel-title">Métricas de Asistencia</h2>
+            <p class="panel-desc" style="margin-bottom: 2rem;">Consulta tu registro histórico de participación en el congreso.</p>
 
-            <div class="countdown-box">
-                <h3>El congreso comienza en…</h3>
-                <p>El sistema de escaneo se habilitará automáticamente en la inauguración oficial.</p>
-                <div class="countdown-tiles">
-                    <div class="tile"><span id="cnt-d" class="tile-num">--</span><span class="tile-label">Días</span></div>
-                    <div class="tile"><span id="cnt-h" class="tile-num">--</span><span class="tile-label">Horas</span></div>
-                    <div class="tile"><span id="cnt-m" class="tile-num">--</span><span class="tile-label">Min.</span></div>
-                    <div class="tile"><span id="cnt-s" class="tile-num">--</span><span class="tile-label">Seg.</span></div>
+            <!-- Top Metrics -->
+            <?php 
+                $total_days = 6; 
+                $attended_dates = [];
+                foreach ($data['user_attendances'] ?? [] as $att) {
+                    $date = date('Y-m-d', strtotime($att->scanned_at) - (5 * 3600)); // Consider offset for dates too
+                    $attended_dates[$date] = true;
+                }
+                $days_attended = count($attended_dates);
+                $progress_percent = ($days_attended / $total_days) * 100;
+            ?>
+            <div style="background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 25px; margin-bottom: 2rem;">
+                <h3 style="margin: 0 0 15px; font-size: 1.1rem; color: var(--text);">
+                    <i class="fa-solid fa-chart-line" style="color: var(--pink);"></i> Progreso General
+                </h3>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem; color: var(--muted);">
+                    <span>Has asistido a <strong><?php echo $days_attended; ?></strong> de <?php echo $total_days; ?> días</span>
+                    <span><?php echo round($progress_percent); ?>%</span>
+                </div>
+                <!-- Progress bar -->
+                <div style="width: 100%; height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; overflow: hidden;">
+                    <div style="width: <?php echo $progress_percent; ?>%; height: 100%; background: var(--pink-g); border-radius: 5px;"></div>
+                </div>
+                
+                <!-- Status Message -->
+                <div style="margin-top: 20px;">
+                    <?php if ($data['has_attended']): ?>
+                        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(34,197,94,0.15); color: #4ade80; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700;">
+                            <i class="fa-solid fa-check-circle"></i> Asistencia Registrada para hoy
+                        </div>
+                    <?php else: ?>
+                        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(234,179,8,0.15); color: #facc15; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700;">
+                            <i class="fa-solid fa-clock"></i> Asistencia Pendiente para hoy
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
 
-            <!-- Tarjeta de Asistencia QR -->
-            <?php if (!$event): ?>
-                <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 12px; padding: 20px; margin-top: 2rem; color: #856404; display: flex; gap: 15px; align-items: flex-start;">
-                    <i class="fa-solid fa-exclamation-triangle" style="font-size: 1.5rem; color: #d97706; margin-top: 3px;"></i>
-                    <div>
-                        <strong style="display: block; font-size: 1.05rem; margin-bottom: 5px;">No hay evento activo actualmente</strong>
-                        <p style="margin: 0; font-size: 0.9rem;">Ponte en contacto con los organizadores para más información o espera al inicio del evento.</p>
-                    </div>
+            <h3 style="margin: 0 0 15px; font-size: 1.1rem; color: var(--text);">Historial de Escaneos</h3>
+            <?php if (empty($data['user_attendances'])): ?>
+                <div class="empty-state">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <p>Aún no tienes registros de asistencia.</p>
                 </div>
             <?php else: ?>
-                <div style="background: #fff; border-radius: 18px; padding: 30px; box-shadow: var(--shadow); max-width: 480px; margin: 2rem auto 0; text-align: center; border: 1px solid var(--border);">
-                    <!-- Encabezado -->
-                    <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 2px solid var(--border);">
-                        <h3 style="margin: 0 0 0.5rem; color: var(--purple); font-size: 1.25rem;">
-                            <i class="fa-solid fa-ticket"></i> Mi Código QR
-                        </h3>
-                        <p style="margin: 0; color: var(--muted); font-size: 0.9rem; font-weight: 500;">
-                            <?php echo htmlspecialchars($event->name); ?>
-                        </p>
-                        <p style="margin: 0.5rem 0 0; color: var(--pink); font-size: 0.85rem; font-weight: 600;">
-                            <i class="fa-regular fa-calendar"></i> <?php echo date('d/m/Y', strtotime($event->event_date)); ?>
-                        </p>
-                    </div>
-
-                    <!-- Estado Badge -->
-                    <div style="margin-bottom: 25px;">
-                        <?php if ($has_attended): ?>
-                            <div style="display: inline-block; background: var(--green-light); color: var(--green); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700;">
-                                <i class="fa-solid fa-check-circle"></i> Asistencia Registrada
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <?php foreach ($data['user_attendances'] as $index => $att): 
+                        // Aplicando corrección de hora_servidor - 5 para Lima/Perú según solicitud
+                        $time = strtotime($att->scanned_at) - (5 * 3600);
+                    ?>
+                        <div style="display: flex; align-items: flex-start; gap: 15px; background: var(--surface2); padding: 15px 20px; border-radius: 12px; border-left: 4px solid var(--purple);">
+                            <div style="background: rgba(108,92,231,0.15); color: #b794f6; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
+                                <i class="fa-solid fa-check"></i>
                             </div>
-                        <?php else: ?>
-                            <div style="display: inline-block; background: var(--gold-light); color: var(--gold); padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 700;">
-                                <i class="fa-solid fa-clock"></i> Asistencia Pendiente
+                            <div>
+                                <h4 style="margin: 0 0 5px; font-size: 1rem; color: #fff;"><?php echo date('d \d\e M Y', $time); ?></h4>
+                                <p style="margin: 0; font-size: 0.85rem; color: var(--muted);">
+                                    <i class="fa-regular fa-clock"></i> Hora de escaneo: <?php echo date('H:i:s', $time); ?>
+                                </p>
+                                <p style="margin: 0; font-size: 0.8rem; color: var(--pink); margin-top: 3px;">
+                                    <?php echo htmlspecialchars($att->event_name ?? '56 Reunión Anual ONTA'); ?>
+                                </p>
                             </div>
-                        <?php endif; ?>
-                    </div>
-
-                    <!-- Imagen QR -->
-                    <div style="margin: 25px 0; background: var(--cream); border: 2px dashed rgb(232, 225, 240); border-radius: 16px; padding: 25px; display: flex; align-items: center; justify-content: center;">
-                        <img id="dash-qr-image"
-                             src="<?php echo URLROOT; ?>/api/qr" 
-                             alt="Código QR de Asistencia"
-                             style="max-width: 100%; width: 220px; display: block; image-rendering: pixelated; mix-blend-mode: multiply;">
-                    </div>
-
-                    <!-- Botón Actualizar -->
-                    <button onclick="updateDashQR()" 
-                            style="background: var(--pink); color: #fff; border: none; padding: 12px 25px; border-radius: 12px; font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: var(--transition); box-shadow: 0 8px 20px rgba(196,30,90,0.25);">
-                        <i class="fa-solid fa-arrows-rotate"></i> Actualizar QR
-                    </button>
-
-                    <!-- Información -->
-                    <div style="margin-top: 25px; padding-top: 20px; border-top: 2px solid var(--border); text-align: left; font-size: 0.85rem; color: var(--muted);">
-                        <p style="margin: 0.5rem 0; font-weight: 600;"><i class="fa-solid fa-circle-info"></i> Información Importante:</p>
-                        <ul style="margin: 10px 0 0 20px; padding: 0; line-height: 1.6;">
-                            <li>Muestra este código al personal de seguridad para registrar tu acceso.</li>
-                            <li>Por seguridad, el código expira en <?php echo defined('QR_EXPIRES_HOURS') ? QR_EXPIRES_HOURS : '12'; ?> horas.</li>
-                        </ul>
-                    </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
-
-                <script>
-                function updateDashQR() {
-                    const img = document.getElementById('dash-qr-image');
-                    const btn = event.currentTarget;
-                    const icon = btn.querySelector('i');
-                    
-                    // Animar botón
-                    icon.classList.add('fa-spin');
-                    btn.style.opacity = '0.8';
-                    
-                    const timestamp = new Date().getTime();
-                    
-                    img.onload = () => {
-                        icon.classList.remove('fa-spin');
-                        btn.style.opacity = '1';
-                    };
-                    
-                    img.onerror = () => {
-                        icon.classList.remove('fa-spin');
-                        btn.style.opacity = '1';
-                        console.error('No se pudo recargar el QR');
-                    };
-                    
-                    img.src = '<?php echo URLROOT; ?>/api/qr?t=' + timestamp;
-                }
-                </script>
             <?php endif; ?>
         </div>
     </div>
@@ -1208,27 +1176,93 @@
     <div id="credenciales" class="dash-content" style="display:none;">
         <div class="panel">
             <h2 class="panel-title">Tu Credencial de Acceso</h2>
-            <p class="panel-desc" style="margin-bottom: 2rem;">Esta credencial valida tu acceso a todos los recintos del evento. Se activa una vez completado el pago de inscripción.</p>
+            <p class="panel-desc" style="margin-bottom: 2rem;">Esta credencial digital oficial valida tu acceso a todos los recintos del evento y es personal e intrasferible.</p>
 
-            <div class="credential-wrap">
-                <div class="credential-info">
-                    <div class="payment-notice">
-                        <div class="pay-icon"><i class="fa-solid fa-lock"></i></div>
-                        <div>
-                            <h4>Pasarela de Pago en Desarrollo</h4>
-                            <p>Nuestro equipo técnico está implementando el sistema de pago seguro (tarjetas, débito y transferencias). <strong>Próximamente</strong> podrás activar tu credencial.</p>
-                        </div>
+            <div class="credential-wrap" style="display: flex; flex-direction: column; align-items: center; gap: 2.5rem; width: 100%;">
+                
+                <div class="payment-notice" style="width: 100%; max-width: 600px; margin: 0 auto;">
+                    <div class="pay-icon"><i class="fa-solid fa-lock"></i></div>
+                    <div>
+                        <h4>Pasarela de Pago en Desarrollo</h4>
+                        <p>Nuestro equipo técnico está implementando el sistema de pago seguro. <strong>Próximamente</strong> podrás gestionar tus pagos desde aquí.</p>
                     </div>
                 </div>
 
-                <div class="credential-card">
-                    <div class="credential-pending">PENDIENTE PAGO</div>
-                    <img src="<?php echo URLROOT; ?>/img/logo_onta.png" alt="ONTA">
-                    <div class="credential-avatar"><?php echo strtoupper(substr($_SESSION['user_name'], 0, 1)); ?></div>
-                    <h4><?php echo h(explode(' ', $_SESSION['user_name'])[0]); ?></h4>
-                    <p>Investigador</p>
-                    <i class="fa-solid fa-qrcode"></i>
+                <?php
+                    // Lógica de validación
+                    $s = strtolower($data['pago_status']);
+                    $is_verified = ($s === 'verified' || $s === 'aprobado' || $s === 'paid' || $s === 'pagado');
+                ?>
+                <div style="position: relative; width: 100%; max-width: 360px; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.3); text-align: center; border: 1px solid var(--border);">
+                    
+                    <?php if (!$is_verified): ?>
+                        <div style="position: absolute; top: 22px; right: -40px; background: #ef4444; color: #fff; padding: 6px 45px; transform: rotate(45deg); font-weight: 800; font-size: 0.75rem; box-shadow: 0 2px 10px rgba(239, 68, 68, 0.4); z-index: 10; letter-spacing: 1px;">
+                            PENDIENTE PAGO
+                        </div>
+                    <?php endif; ?>
+
+                    <div style="background: #1a1625; padding: 25px 20px; border-bottom: 4px solid var(--pink);">
+                        <img src="<?php echo URLROOT; ?>/img/logos/logo.png" onerror="this.src='<?php echo URLROOT; ?>/img/logo_onta.png'" alt="ONTA Oficial" style="height: 60px; max-width: 100%; object-fit: contain;">
+                    </div>
+
+                    <div style="padding: 25px 20px 10px;">
+                        <h3 style="margin: 0; color: #1a1625; font-size: 1.4rem; font-weight: 800; text-transform: uppercase;">
+                            <?php echo htmlspecialchars($user->name); ?>
+                        </h3>
+                        <p style="margin: 5px 0 0; color: var(--pink); font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">
+                            <?php echo _t('login.type_' . $user->user_category); ?>
+                        </p>
+                    </div>
+
+                    <div style="padding: 10px 30px 30px;">
+                        <div style="background: #f8fafc; border-radius: 12px; padding: 20px; display: inline-block; position: relative;">
+                            <?php if (!$event): ?>
+                                <div style="color: #6b7280; font-size: 0.85rem; padding: 30px 10px;">
+                                    <i class="fa-solid fa-qrcode" style="font-size: 2rem; margin-bottom: 10px; color: #cbd5e1; display: block;"></i>
+                                    QR no disponible<br>(Evento inactivo)
+                                </div>
+                            <?php else: ?>
+                                <img id="dash-qr-image"
+                                     src="<?php echo URLROOT; ?>/api/qr" 
+                                     alt="Credencial QR"
+                                     style="width: 200px; height: 200px; max-width: 100%; display: block; image-rendering: pixelated; transition: filter 0.3s; <?php echo (!$is_verified) ? 'filter: blur(8px); pointer-events: none;' : ''; ?>">
+                                
+                                <?php if (!$is_verified): ?>
+                                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ef4444; font-weight: 800; text-shadow: 0 0 10px #fff; width: 100%; pointer-events: none;">
+                                        <i class="fa-solid fa-lock" style="font-size: 2rem; display: block; margin-bottom: 5px;"></i>
+                                        ACCESO RESTRINGIDO
+                                    </div>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <?php if ($event && $is_verified): ?>
+                            <button onclick="updateDashQR()" 
+                                    style="margin-top: 20px; background: transparent; color: #64748b; border: 1px solid #cbd5e1; padding: 8px 18px; border-radius: 20px; font-weight: 600; font-size: 0.8rem; cursor: pointer; transition: all 0.2s;">
+                                <i class="fa-solid fa-arrows-rotate"></i> Recargar QR
+                            </button>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <div style="background: #f1f5f9; padding: 12px; font-size: 0.70rem; color: #94a3b8; border-top: 1px solid #e2e8f0; text-transform: uppercase;">
+                        Documento oficial e intransferible. ONTA 2026.
+                    </div>
                 </div>
+
+                <script>
+                function updateDashQR() {
+                    const img = document.getElementById('dash-qr-image');
+                    const btn = event.currentTarget;
+                    const icon = btn.querySelector('i');
+                    if(!img) return;
+                    icon.classList.add('fa-spin');
+                    btn.style.opacity = '0.5';
+                    const timestamp = new Date().getTime();
+                    img.onload = () => { icon.classList.remove('fa-spin'); btn.style.opacity = '1'; };
+                    img.onerror = () => { icon.classList.remove('fa-spin'); btn.style.opacity = '1'; };
+                    img.src = '<?php echo URLROOT; ?>/api/qr?t=' + timestamp;
+                }
+                </script>
             </div>
         </div>
     </div>
