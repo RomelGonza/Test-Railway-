@@ -1180,23 +1180,41 @@
 
             <div class="credential-wrap" style="display: flex; flex-direction: column; align-items: center; gap: 2.5rem; width: 100%;">
                 
-                <div class="payment-notice" style="width: 100%; max-width: 600px; margin: 0 auto;">
-                    <div class="pay-icon"><i class="fa-solid fa-lock"></i></div>
-                    <div>
-                        <h4>Pasarela de Pago en Desarrollo</h4>
-                        <p>Nuestro equipo técnico está implementando el sistema de pago seguro. <strong>Próximamente</strong> podrás gestionar tus pagos desde aquí.</p>
-                    </div>
-                </div>
+                <?php flash('payment_simulated'); ?>
 
                 <?php
                     // Lógica de validación
                     $s = strtolower($data['pago_status']);
                     $is_verified = ($s === 'verified' || $s === 'aprobado' || $s === 'paid' || $s === 'pagado');
                 ?>
+
+                <?php if (!$is_verified): ?>
+                <div class="payment-notice" style="width: 100%; max-width: 600px; margin: 0 auto; background: rgba(108, 92, 231, 0.05); border: 1px dashed #6c5ce7; border-radius: 12px; padding: 20px; display: flex; align-items: flex-start; gap: 15px;">
+                    <div style="font-size: 2.2rem; color: #6c5ce7;"><i class="fa-solid fa-flask"></i></div>
+                    <div style="text-align: left; width: 100%;">
+                        <h4 style="margin: 0 0 5px; color: #1a1625; font-size: 1.05rem;">Pasarela Simulada (Entorno de Pruebas)</h4>
+                        <p style="margin: 0 0 15px; font-size: 0.85rem; color: #64748b;">Para propósitos de prueba de la arquitectura QR, utiliza este simulador que autocompletará un registro en la tabla `inscriptions` y forzará el estado a 'verified' o 'pagado'. (Luego será reemplazado por Stripe/Niubiz)</p>
+                        <form action="<?php echo URLROOT; ?>/users/simulatePayment" method="POST">
+                            <button type="submit" style="background: #6c5ce7; color: white; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; font-size: 0.85rem; box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3); transition: all 0.2s;">
+                                <i class="fa-solid fa-credit-card"></i> Simular Pago Exitoso
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <?php else: ?>
+                <div class="payment-notice" style="width: 100%; max-width: 600px; margin: 0 auto; background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 12px; padding: 15px 20px; display: flex; align-items: center; gap: 15px;">
+                    <div style="font-size: 1.5rem; color: #22c55e;"><i class="fa-solid fa-circle-check"></i></div>
+                    <div style="text-align: left;">
+                        <h4 style="margin: 0 0 2px; color: #14532d; font-size: 1rem;">Pago Verificado Correctamente</h4>
+                        <p style="margin: 0; font-size: 0.85rem; color: #166534;">Tu credencial oficial está activada y lista para usarse.</p>
+                    </div>
+                </div>
+                <?php endif; ?>
+
                 <div style="position: relative; width: 100%; max-width: 360px; background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.3); text-align: center; border: 1px solid var(--border);">
                     
                     <?php if (!$is_verified): ?>
-                        <div style="position: absolute; top: 22px; right: -40px; background: #ef4444; color: #fff; padding: 6px 45px; transform: rotate(45deg); font-weight: 800; font-size: 0.75rem; box-shadow: 0 2px 10px rgba(239, 68, 68, 0.4); z-index: 10; letter-spacing: 1px;">
+                        <div style="position: absolute; top: 18px; right: -32px; background: #ef4444; color: #fff; padding: 6px 35px; transform: rotate(45deg); font-weight: 800; font-size: 0.7rem; box-shadow: 0 2px 10px rgba(239, 68, 68, 0.4); z-index: 10; letter-spacing: 1px; width: 150px; text-align: center;">
                             PENDIENTE PAGO
                         </div>
                     <?php endif; ?>

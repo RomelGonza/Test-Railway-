@@ -404,4 +404,40 @@ class Users extends Controller {
         redirect('users/login');
         exit;
     }
+
+    public function simulatePayment() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isLoggedIn()) {
+            $inscriptionModel = $this->model('Inscription');
+            
+            // Check if already has inscription
+            $inscriptions = $inscriptionModel->getInscriptionsByUserId($_SESSION['user_id']);
+            if (empty($inscriptions)) {
+                $data = [
+                    'user_id' => $_SESSION['user_id'],
+                    'full_name' => $_SESSION['user_name'],
+                    'email' => $_SESSION['user_email'],
+                    'phone' => '+00 (000) 000-000',
+                    'country' => 'Simulación Vía',
+                    'institution' => 'Institución de Prueba ONTA',
+                    'payment_receipt' => 'simulated_voucher.png'
+                ];
+                $inscriptionModel->register($data);
+                
+                // Fetch the newly created element 
+                $inscriptions = $inscriptionModel->getInscriptionsByUserId($_SESSION['user_id']);
+                if (!empty($inscriptions)) {
+                    $last_id = end($inscriptions)->id;
+                    $inscriptionModel->updateStatus($last_id, 'verified');
+                }
+            } else {
+                // If it already existed, just force-verify it
+                $last_id = end($inscriptions)->id;
+                $inscriptionModel->updateStatus($last_id, 'verified');
+            }
+            
+            flash('payment_simulated', 'Pago simulado con éxito. Se ha llenado la tabla "inscriptions" y su cuenta ha sido Activada.');
+            redirect('users/dashboard#credenciales');
+            exit;
+        }
+    }
 }
