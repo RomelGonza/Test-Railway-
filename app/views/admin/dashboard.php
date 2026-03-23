@@ -959,11 +959,16 @@ endif; ?>
 
         <!-- ═══ ASISTENCIAS ═══ -->
         <div id="asistencias" class="admin-section">
-            <div class="sec-header">
+            <div class="sec-header" style="flex-wrap:wrap; gap:1rem;">
                 <h2>Control de Asistencias ONTA 2026</h2>
-                <span class="count-pill" style="background: var(--pink-dim); color: var(--pink);">
-                    <i class="fa-solid fa-microchip"></i> <span id="count-asistencias"><?php echo count($data['attendances'] ?? []); ?></span> escaneos
-                </span>
+                <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap;">
+                    <input type="date" class="adm-input" value="<?php echo htmlspecialchars($data['selected_date']); ?>"
+                           onchange="window.location.href='?date=' + this.value + '#asistencias'"
+                           style="padding: 0.4rem 1rem; border:1px solid var(--border2); border-radius:10px; cursor:pointer; background:var(--surface2); color:#fff; width:auto; font-family:'Inter',sans-serif; margin:0;" title="Filtrar por Fecha">
+                    <span class="count-pill" style="background: rgba(196, 30, 90, 0.15); color: var(--pink); border: 1px solid rgba(196,30,90,0.3); font-weight:600; padding:0.4rem 0.8rem;">
+                        <i class="fa-solid fa-users"></i> Asistentes hoy: <?php echo count($data['attendances'] ?? []); ?> / Inscritos: <?php echo count($data['users'] ?? []); ?>
+                    </span>
+                </div>
             </div>
 
             <!-- Módulo de Marcado Manual -->
@@ -991,7 +996,7 @@ endif; ?>
                 <div class="empty-state">
                     <i class="fa-solid fa-qrcode" style="font-size:4rem; opacity:0.3; margin-bottom:1rem; display:block;"></i>
                     <h3>Bandeja Vacía</h3>
-                    <p>No se han registrado visitas con los códigos QR de los usuarios.</p>
+                    <p>No se han registrado visitas en la fecha seleccionada.</p>
                 </div>
             <?php else: ?>
             <div class="table-controls">
@@ -1177,9 +1182,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ═══ PAGINATION & SEARCH LOGIC ═══
-    const itemsPerPage = 10;
-    
-    function initTable(tableId, paginationId) {
+    function initTable(tableId, paginationId, itemsPerPage = 10) {
         const table = document.getElementById(tableId);
         if (!table) return;
         const tbody = table.querySelector('tbody');
@@ -1284,7 +1287,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initTable('table-inscripciones', 'pag-inscripciones');
     initTable('table-resumenes', 'pag-resumenes');
     initTable('table-pagos', 'pag-pagos');
-    initTable('table-asistencias', 'pag-asistencias');
+    initTable('table-asistencias', 'pag-asistencias', 50);
 });
 
 function confirmDelete(item) {

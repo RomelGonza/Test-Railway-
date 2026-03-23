@@ -154,18 +154,20 @@ class AttendanceModel {
     }
 
     /**
-     * Obtiene todos los registros de asistencia global para el panel de administración
-     * Aplica la regla de descontar 5 horas a la columna scanned_at (UTC)
+     * Obtiene los registros de asistencia global filtrados por una fecha específica (Escalabilidad)
      * 
+     * @param string $date Fecha en formato YYYY-MM-DD
      * @return array
      */
-    public function getAllAttendances() {
+    public function getAttendancesByDate($date) {
         $this->db->query("SELECT a.id as attendance_id, u.name as user_name, u.user_category, 
                                  e.name as event_name, a.scanned_at as local_scanned_at 
                           FROM attendance a
                           JOIN users u ON a.user_id = u.id
                           JOIN events e ON a.event_id = e.id
+                          WHERE DATE(a.scanned_at) = :date
                           ORDER BY a.scanned_at DESC");
+        $this->db->bind(':date', $date);
         return $this->db->resultSet();
     }
 }

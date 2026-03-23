@@ -120,16 +120,22 @@ class Onta_admin extends Controller {
         }
 
         // Obtener datos para el panel
+        $selected_date = isset($_GET['date']) ? $_GET['date'] : date('Y-m-d');
+        if (!preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $selected_date)) {
+            $selected_date = date('Y-m-d');
+        }
+
         $abstracts = $this->abstractModel->getAllAbstracts();
         $inscriptions = $this->inscriptionModel->getAllInscriptions();
         $users = $this->userModel->getAllUsers();
-        $attendances = $this->attendanceModel->getAllAttendances();
+        $attendances = $this->attendanceModel->getAttendancesByDate($selected_date);
 
         $data = [
             'abstracts' => $abstracts,
             'inscriptions' => $inscriptions,
             'users' => $users,
-            'attendances' => $attendances
+            'attendances' => $attendances,
+            'selected_date' => $selected_date
         ];
         $this->view('admin/dashboard', $data);
     }
