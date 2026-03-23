@@ -66,16 +66,24 @@ class AttendanceModel {
     }
 
     /**
-     * Verifica si un usuario ya registró asistencia en un evento
+     * Verifica si un usuario ya registró asistencia HOY en un evento
      * 
      * @param int $user_id ID del usuario
      * @param int $event_id ID del evento
      * @return bool
      */
     public function hasAttendance($user_id, $event_id) {
-        $this->db->query('SELECT id FROM attendance WHERE user_id = :user_id AND event_id = :event_id LIMIT 1');
+        $today = date('Y-m-d'); // Obtiene la fecha actual en America/Lima
+        
+        $this->db->query('SELECT id FROM attendance 
+                          WHERE user_id = :user_id 
+                          AND event_id = :event_id 
+                          AND DATE(scanned_at) = :today 
+                          LIMIT 1');
+                          
         $this->db->bind(':user_id', $user_id);
         $this->db->bind(':event_id', $event_id);
+        $this->db->bind(':today', $today);
         
         $result = $this->db->single();
         return $result !== false && $result !== null;
