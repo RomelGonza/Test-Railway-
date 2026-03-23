@@ -58,7 +58,7 @@ class AttendanceModel {
      * @return object|null
      */
     public function getByUserAndEvent($user_id, $event_id) {
-        $this->db->query('SELECT * FROM attendance WHERE user_id = :user_id AND event_id = :event_id');
+        $this->db->query('SELECT * FROM attendance WHERE user_id = :user_id AND event_id = :event_id ORDER BY scanned_at DESC LIMIT 1');
         $this->db->bind(':user_id', $user_id);
         $this->db->bind(':event_id', $event_id);
         

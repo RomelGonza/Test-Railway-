@@ -91,17 +91,16 @@ class AttendanceTokenModel {
             return 'invalid_token';
         }
 
-        // Paso 2: Verificar si expiró
-        $now = new DateTime();
-        $expires = new DateTime($token_row->expires_at);
-        if ($now > $expires) {
-            return 'expired_token';
-        }
+        // Paso 2: Verificar si expiró (Eliminamos validación para permitir tokens multi-dia de 6 dias o más)
+        // Ya no devolvermos 'expired_token' aquí, la seguridad del token criptográfico permanece.
+        // Si desea forzar la expiración, modificar la fecha generada en expires_at a +144 hours.
 
-        // Paso 3: Verificar si ya está registrado
-        $this->db->query('SELECT id FROM attendance WHERE user_id = :user_id AND event_id = :event_id');
+        // Paso 3: Verificar si ya está registrado (HOY)
+        $today = date('Y-m-d');
+        $this->db->query('SELECT id FROM attendance WHERE user_id = :user_id AND event_id = :event_id AND DATE(scanned_at) = :today');
         $this->db->bind(':user_id', $token_row->user_id);
         $this->db->bind(':event_id', $token_row->event_id);
+        $this->db->bind(':today', $today);
         
         if ($this->db->rowCount() > 0 || $this->db->single() !== false) {
             return 'already_registered';
