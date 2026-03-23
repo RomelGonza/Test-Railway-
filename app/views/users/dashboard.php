@@ -1107,7 +1107,7 @@
                 $total_days = 6; 
                 $attended_dates = [];
                 foreach ($data['user_attendances'] ?? [] as $att) {
-                    $date = date('Y-m-d', strtotime($att->scanned_at) - (5 * 3600)); // Consider offset for dates too
+                    $date = date('Y-m-d', strtotime($att->scanned_at));
                     $attended_dates[$date] = true;
                 }
                 $days_attended = count($attended_dates);
@@ -1149,8 +1149,8 @@
             <?php else: ?>
                 <div style="display: flex; flex-direction: column; gap: 15px;">
                     <?php foreach ($data['user_attendances'] as $index => $att): 
-                        // Aplicando corrección de hora_servidor - 5 para Lima/Perú según solicitud
-                        $time = strtotime($att->scanned_at) - (5 * 3600);
+                        // La fecha escaneada ya viene en el timezone correcto (America/Lima) según el servidor
+                        $time = strtotime($att->scanned_at);
                     ?>
                         <div style="display: flex; align-items: flex-start; gap: 15px; background: var(--surface2); padding: 15px 20px; border-radius: 12px; border-left: 4px solid var(--purple);">
                             <div style="background: rgba(108,92,231,0.15); color: #b794f6; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0;">
